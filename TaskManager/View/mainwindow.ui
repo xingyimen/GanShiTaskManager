@@ -6,17 +6,490 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>480</width>
+    <height>800</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>480</width>
+    <height>800</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>480</width>
+    <height>800</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>481</width>
+      <height>741</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="schedule">
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(42, 180, 255);
+</string>
+      </property>
+      <widget class="QToolButton" name="sche_setbtn">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>0</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton{
+	border-image: url(:/menu/res/titleset.png)；
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="sche_addbtn">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>0</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton{
+	border-image: url(:/menu/res/add.png)；
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="TitleLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>481</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>日程</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="pomodorobtn">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>0</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton{
+	border-image: url(:/menu/res/pomodoro.png)；
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <zorder>label</zorder>
+      <zorder>sche_setbtn</zorder>
+      <zorder>sche_addbtn</zorder>
+      <zorder>pomodorobtn</zorder>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="workflow">
+     <widget class="QWidget" name="widget_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(42, 180, 255);
+</string>
+      </property>
+      <widget class="QToolButton" name="work_setbtn">
+       <property name="geometry">
+        <rect>
+         <x>410</x>
+         <y>0</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton{
+	border-image: url(:/menu/res/titleset.png)；
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QToolButton" name="work_addbtn">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>0</y>
+         <width>51</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton{
+	border-image: url(:/menu/res/add.png)；
+}
+</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="TitleLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>0</y>
+         <width>161</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="text">
+        <string>工作流</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="quadrant">
+     <widget class="QWidget" name="widget" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(42, 180, 255);
+</string>
+      </property>
+      <widget class="TitleLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>481</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>重要紧急四象限</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="datagram">
+     <widget class="QWidget" name="widget_4" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(42, 180, 255);
+</string>
+      </property>
+      <widget class="TitleLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>481</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>数据报表</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="set">
+     <widget class="QWidget" name="widget_5" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>481</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(42, 180, 255);
+</string>
+      </property>
+      <widget class="TitleLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>481</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>设置</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="menu" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>740</y>
+      <width>481</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <widget class="QWidget" name="horizontalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>481</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
+      </property>
+      <item>
+       <widget class="MenuButton" name="schedulebtn">
+        <property name="minimumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton{
+	border-image: url(:/menu/res/schedule.png);
+}
+QToolButton::checked{
+	border-image: url(:/menu/res/schedule_press.png);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>45</width>
+          <height>45</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="MenuButton" name="workflowbtn">
+        <property name="minimumSize">
+         <size>
+          <width>85</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton{
+	border-image: url(:/menu/res/workflow.png);
+}
+QToolButton::checked{
+	border-image: url(:/menu/res/workflow_press.png);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="MenuButton" name="quadrantbtn">
+        <property name="minimumSize">
+         <size>
+          <width>85</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton{
+	border-image: url(:/menu/res/quadrant.png);
+}
+QToolButton::checked{
+	border-image: url(:/menu/res/quadrant_press.png)
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="MenuButton" name="datagrambtn">
+        <property name="minimumSize">
+         <size>
+          <width>85</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton{
+	border-image: url(:/menu/res/datagram.png);
+}
+QToolButton::checked{
+	border-image: url(:/menu/res/datagram_press.png);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="MenuButton" name="setbtn">
+        <property name="minimumSize">
+         <size>
+          <width>85</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>85</width>
+          <height>45</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QToolButton{
+	border-image: url(:/menu/res/set.png);
+}
+QToolButton::checked{
+	border-image: url(:/menu/res/set_press.png);
+}</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MenuButton</class>
+   <extends>QToolButton</extends>
+   <header>menubutton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TitleLabel</class>
+   <extends>QLabel</extends>
+   <header>titlelabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

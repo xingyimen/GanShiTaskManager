@@ -30,20 +30,20 @@ int main(int argc, char *argv[])
 
 
     //检查驱动
-    qDebug() << QSqlDatabase::drivers();
-    //连接远程数据库
-    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-    db.setHostName("124.223.188.73");
-    db.setUserName("root");
-    db.setPassword("Yintama2002");
-    db.setDatabaseName("player");
+//    qDebug() << QSqlDatabase::drivers();
+//    //连接远程数据库
+//    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+//    db.setHostName("124.223.188.73");
+//    db.setUserName("root");
+//    db.setPassword("Yintama2002");
+//    db.setDatabaseName("player");
 
-    if(!db.open()){
-        qDebug()<< "连接失败";
-    }
-    else{
-        qDebug()<< "连接成功";
-    }
+//    if(!db.open()){
+//        qDebug()<< "连接失败";
+//    }
+//    else{
+//        qDebug()<< "连接成功";
+//    }
 
 
     MainWindow w;

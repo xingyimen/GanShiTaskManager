@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/menu">
+        <file>res/quadrant.png</file>
+        <file>res/quadrant_press.png</file>
+        <file>res/workflow.png</file>
+        <file>res/workflow_press.png</file>
+        <file>res/datagram.png</file>
+        <file>res/datagram_press.png</file>
+        <file>res/set.png</file>
+        <file>res/set_press.png</file>
+        <file>res/schedule.png</file>
+        <file>res/schedule_press.png</file>
+        <file>res/add.png</file>
+        <file>res/pomodoro.png</file>
+        <file>res/titleset.png</file>
+    </qresource>
+</RCC>
