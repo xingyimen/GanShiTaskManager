@@ -1,0 +1,13 @@
+release/mainwindow.o
+release/menubutton.o
+release/scheitem.o
+release/titlelabel.o
+release/workitem.o
+release/main.o
+release/qrc_res.o
+release/qrc_qmake_qmake_qm_files.o
+release/moc_mainwindow.o
+release/moc_menubutton.o
+release/moc_scheitem.o
+release/moc_titlelabel.o
+release/moc_workitem.o

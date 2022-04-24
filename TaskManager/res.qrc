@@ -13,5 +13,6 @@
         <file>res/add.png</file>
         <file>res/pomodoro.png</file>
         <file>res/titleset.png</file>
+        <file>res/gridding.png</file>
     </qresource>
 </RCC>

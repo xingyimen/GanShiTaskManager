@@ -5,17 +5,5 @@ MenuButton::MenuButton(QWidget *parent)
 {
     setCheckable(true);
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
 

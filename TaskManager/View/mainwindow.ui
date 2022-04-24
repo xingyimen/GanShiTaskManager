@@ -39,7 +39,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="schedule">
      <widget class="QWidget" name="widget_2" native="true">
@@ -133,6 +133,51 @@
       <zorder>sche_addbtn</zorder>
       <zorder>pomodorobtn</zorder>
      </widget>
+     <widget class="QScrollArea" name="scrollArea">
+      <property name="geometry">
+       <rect>
+        <x>-10</x>
+        <y>50</y>
+        <width>491</width>
+        <height>691</height>
+       </rect>
+      </property>
+      <property name="widgetResizable">
+       <bool>true</bool>
+      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>489</width>
+         <height>689</height>
+        </rect>
+       </property>
+       <widget class="ScheItem" name="widget_6" native="true">
+        <property name="geometry">
+         <rect>
+          <x>60</x>
+          <y>40</y>
+          <width>380</width>
+          <height>110</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>380</width>
+          <height>110</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>380</width>
+          <height>110</height>
+         </size>
+        </property>
+       </widget>
+      </widget>
+     </widget>
     </widget>
     <widget class="QWidget" name="workflow">
      <widget class="QWidget" name="widget_3" native="true">
@@ -209,6 +254,16 @@
        </property>
       </widget>
      </widget>
+     <widget class="WorkItem" name="widget_7" native="true">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>100</y>
+        <width>401</width>
+        <height>141</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="quadrant">
      <widget class="QWidget" name="widget" native="true">
@@ -241,6 +296,110 @@
        </property>
       </widget>
      </widget>
+     <widget class="QLabel" name="importance">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>150</y>
+        <width>53</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+    font:15px; 
+    font-family: Segoe UI;
+}
+ </string>
+      </property>
+      <property name="text">
+       <string>重要</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="gridding">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>150</y>
+        <width>450</width>
+        <height>450</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-image: url(:/menu/res/gridding.png);</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="urgency">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>350</y>
+        <width>61</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+    font:15px; 
+    font-family: Segoe UI;
+}
+ </string>
+      </property>
+      <property name="text">
+       <string>紧急</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="aday">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>590</y>
+        <width>31</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+    font:15px; 
+    font-family: Segoe UI;
+    color:rgb(245,192,151);
+}
+ </string>
+      </property>
+      <property name="text">
+       <string>24h</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="deadline">
+      <property name="geometry">
+       <rect>
+        <x>410</x>
+        <y>590</y>
+        <width>61</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+    font:15px; 
+    font-family: Segoe UI;
+    color:rgb(248,89,89);
+}
+ </string>
+      </property>
+      <property name="text">
+       <string>Deadline</string>
+      </property>
+     </widget>
+     <zorder>gridding</zorder>
+     <zorder>widget</zorder>
+     <zorder>importance</zorder>
+     <zorder>urgency</zorder>
+     <zorder>aday</zorder>
+     <zorder>deadline</zorder>
     </widget>
     <widget class="QWidget" name="datagram">
      <widget class="QWidget" name="widget_4" native="true">
@@ -304,6 +463,117 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
+     </widget>
+     <widget class="QPushButton" name="accountinfo">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>100</y>
+        <width>381</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid gray;
+	border-radius:30px;
+    font:25px; 
+    font-family: Segoe UI;
+    text-align : left;
+}
+QPushButton:hover{
+background-color: rgb(181, 225, 250);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>       账号</string>
+      </property>
+      <property name="default">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="synchronize">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>220</y>
+        <width>381</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid gray;
+	border-radius:30px;
+    font:25px; 
+    font-family: Segoe UI;
+    text-align : left;
+}
+QPushButton:hover{
+background-color: rgb(181, 225, 250);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>       同步数据</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="reset">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>340</y>
+        <width>381</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid gray;
+	border-radius:30px;
+    font:25px; 
+    font-family: Segoe UI;
+    text-align : left;
+}
+QPushButton:hover{
+background-color: rgb(181, 225, 250);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>       重置</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="individuation">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>460</y>
+        <width>381</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+	background-color: white;
+	border: 1px solid gray;
+	border-radius:30px;
+    font:25px; 
+    font-family: Segoe UI;
+    text-align : left;
+}
+QPushButton:hover{
+background-color: rgb(181, 225, 250);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>       个性化设置</string>
+      </property>
      </widget>
     </widget>
    </widget>
@@ -488,6 +758,18 @@ QToolButton::checked{
    <class>TitleLabel</class>
    <extends>QLabel</extends>
    <header>titlelabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ScheItem</class>
+   <extends>QWidget</extends>
+   <header>scheitem.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>WorkItem</class>
+   <extends>QWidget</extends>
+   <header>workitem.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

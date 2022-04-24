@@ -12,12 +12,17 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QPushButton>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
 #include "menubutton.h"
+#include "scheitem.h"
 #include "titlelabel.h"
+#include "workitem.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -32,20 +37,33 @@ public:
     QToolButton *sche_addbtn;
     TitleLabel *label;
     QToolButton *pomodorobtn;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    ScheItem *widget_6;
     QWidget *workflow;
     QWidget *widget_3;
     QToolButton *work_setbtn;
     QToolButton *work_addbtn;
     TitleLabel *label_2;
+    WorkItem *widget_7;
     QWidget *quadrant;
     QWidget *widget;
     TitleLabel *label_3;
+    QLabel *importance;
+    QLabel *gridding;
+    QLabel *urgency;
+    QLabel *aday;
+    QLabel *deadline;
     QWidget *datagram;
     QWidget *widget_4;
     TitleLabel *label_4;
     QWidget *set;
     QWidget *widget_5;
     TitleLabel *label_5;
+    QPushButton *accountinfo;
+    QPushButton *synchronize;
+    QPushButton *reset;
+    QPushButton *individuation;
     QWidget *menu;
     QWidget *horizontalLayoutWidget;
     QHBoxLayout *horizontalLayout;
@@ -104,6 +122,19 @@ public:
         sche_setbtn->raise();
         sche_addbtn->raise();
         pomodorobtn->raise();
+        scrollArea = new QScrollArea(schedule);
+        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
+        scrollArea->setGeometry(QRect(-10, 50, 491, 691));
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 489, 689));
+        widget_6 = new ScheItem(scrollAreaWidgetContents);
+        widget_6->setObjectName(QString::fromUtf8("widget_6"));
+        widget_6->setGeometry(QRect(60, 40, 380, 110));
+        widget_6->setMinimumSize(QSize(380, 110));
+        widget_6->setMaximumSize(QSize(380, 110));
+        scrollArea->setWidget(scrollAreaWidgetContents);
         stackedWidget->addWidget(schedule);
         workflow = new QWidget();
         workflow->setObjectName(QString::fromUtf8("workflow"));
@@ -132,6 +163,9 @@ public:
         label_2->setFrameShadow(QFrame::Plain);
         label_2->setTextFormat(Qt::AutoText);
         label_2->setAlignment(Qt::AlignCenter);
+        widget_7 = new WorkItem(workflow);
+        widget_7->setObjectName(QString::fromUtf8("widget_7"));
+        widget_7->setGeometry(QRect(40, 100, 401, 141));
         stackedWidget->addWidget(workflow);
         quadrant = new QWidget();
         quadrant->setObjectName(QString::fromUtf8("quadrant"));
@@ -144,7 +178,51 @@ public:
         label_3->setObjectName(QString::fromUtf8("label_3"));
         label_3->setGeometry(QRect(0, 0, 481, 51));
         label_3->setAlignment(Qt::AlignCenter);
+        importance = new QLabel(quadrant);
+        importance->setObjectName(QString::fromUtf8("importance"));
+        importance->setGeometry(QRect(240, 150, 53, 16));
+        importance->setStyleSheet(QString::fromUtf8("QLabel{\n"
+"    font:15px; \n"
+"    font-family: Segoe UI;\n"
+"}\n"
+" "));
+        gridding = new QLabel(quadrant);
+        gridding->setObjectName(QString::fromUtf8("gridding"));
+        gridding->setGeometry(QRect(10, 150, 450, 450));
+        gridding->setStyleSheet(QString::fromUtf8("border-image: url(:/menu/res/gridding.png);"));
+        urgency = new QLabel(quadrant);
+        urgency->setObjectName(QString::fromUtf8("urgency"));
+        urgency->setGeometry(QRect(440, 350, 61, 21));
+        urgency->setStyleSheet(QString::fromUtf8("QLabel{\n"
+"    font:15px; \n"
+"    font-family: Segoe UI;\n"
+"}\n"
+" "));
+        aday = new QLabel(quadrant);
+        aday->setObjectName(QString::fromUtf8("aday"));
+        aday->setGeometry(QRect(360, 590, 31, 20));
+        aday->setStyleSheet(QString::fromUtf8("QLabel{\n"
+"    font:15px; \n"
+"    font-family: Segoe UI;\n"
+"    color:rgb(245,192,151);\n"
+"}\n"
+" "));
+        deadline = new QLabel(quadrant);
+        deadline->setObjectName(QString::fromUtf8("deadline"));
+        deadline->setGeometry(QRect(410, 590, 61, 20));
+        deadline->setStyleSheet(QString::fromUtf8("QLabel{\n"
+"    font:15px; \n"
+"    font-family: Segoe UI;\n"
+"    color:rgb(248,89,89);\n"
+"}\n"
+" "));
         stackedWidget->addWidget(quadrant);
+        gridding->raise();
+        widget->raise();
+        importance->raise();
+        urgency->raise();
+        aday->raise();
+        deadline->raise();
         datagram = new QWidget();
         datagram->setObjectName(QString::fromUtf8("datagram"));
         widget_4 = new QWidget(datagram);
@@ -168,6 +246,66 @@ public:
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setGeometry(QRect(0, 0, 481, 51));
         label_5->setAlignment(Qt::AlignCenter);
+        accountinfo = new QPushButton(set);
+        accountinfo->setObjectName(QString::fromUtf8("accountinfo"));
+        accountinfo->setGeometry(QRect(50, 100, 381, 101));
+        accountinfo->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"	background-color: white;\n"
+"	border: 1px solid gray;\n"
+"	border-radius:30px;\n"
+"    font:25px; \n"
+"    font-family: Segoe UI;\n"
+"    text-align : left;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(181, 225, 250);\n"
+"}\n"
+""));
+        synchronize = new QPushButton(set);
+        synchronize->setObjectName(QString::fromUtf8("synchronize"));
+        synchronize->setGeometry(QRect(50, 220, 381, 101));
+        synchronize->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"	background-color: white;\n"
+"	border: 1px solid gray;\n"
+"	border-radius:30px;\n"
+"    font:25px; \n"
+"    font-family: Segoe UI;\n"
+"    text-align : left;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(181, 225, 250);\n"
+"}\n"
+""));
+        reset = new QPushButton(set);
+        reset->setObjectName(QString::fromUtf8("reset"));
+        reset->setGeometry(QRect(50, 340, 381, 101));
+        reset->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"	background-color: white;\n"
+"	border: 1px solid gray;\n"
+"	border-radius:30px;\n"
+"    font:25px; \n"
+"    font-family: Segoe UI;\n"
+"    text-align : left;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(181, 225, 250);\n"
+"}\n"
+""));
+        individuation = new QPushButton(set);
+        individuation->setObjectName(QString::fromUtf8("individuation"));
+        individuation->setGeometry(QRect(50, 460, 381, 101));
+        individuation->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"	background-color: white;\n"
+"	border: 1px solid gray;\n"
+"	border-radius:30px;\n"
+"    font:25px; \n"
+"    font-family: Segoe UI;\n"
+"    text-align : left;\n"
+"}\n"
+"QPushButton:hover{\n"
+"background-color: rgb(181, 225, 250);\n"
+"}\n"
+""));
         stackedWidget->addWidget(set);
         menu = new QWidget(centralwidget);
         menu->setObjectName(QString::fromUtf8("menu"));
@@ -250,7 +388,8 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(2);
+        accountinfo->setDefault(false);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -267,8 +406,17 @@ public:
         work_addbtn->setText(QString());
         label_2->setText(QApplication::translate("MainWindow", "\345\267\245\344\275\234\346\265\201", nullptr));
         label_3->setText(QApplication::translate("MainWindow", "\351\207\215\350\246\201\347\264\247\346\200\245\345\233\233\350\261\241\351\231\220", nullptr));
+        importance->setText(QApplication::translate("MainWindow", "\351\207\215\350\246\201", nullptr));
+        gridding->setText(QString());
+        urgency->setText(QApplication::translate("MainWindow", "\347\264\247\346\200\245", nullptr));
+        aday->setText(QApplication::translate("MainWindow", "24h", nullptr));
+        deadline->setText(QApplication::translate("MainWindow", "Deadline", nullptr));
         label_4->setText(QApplication::translate("MainWindow", "\346\225\260\346\215\256\346\212\245\350\241\250", nullptr));
         label_5->setText(QApplication::translate("MainWindow", "\350\256\276\347\275\256", nullptr));
+        accountinfo->setText(QApplication::translate("MainWindow", "       \350\264\246\345\217\267", nullptr));
+        synchronize->setText(QApplication::translate("MainWindow", "       \345\220\214\346\255\245\346\225\260\346\215\256", nullptr));
+        reset->setText(QApplication::translate("MainWindow", "       \351\207\215\347\275\256", nullptr));
+        individuation->setText(QApplication::translate("MainWindow", "       \344\270\252\346\200\247\345\214\226\350\256\276\347\275\256", nullptr));
         schedulebtn->setText(QString());
         workflowbtn->setText(QString());
         quadrantbtn->setText(QString());
