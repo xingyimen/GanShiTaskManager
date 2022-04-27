@@ -1,13 +1,13 @@
+debug/grapharea.o
 debug/mainwindow.o
-debug/menubutton.o
+debug/menuwidget.o
 debug/scheitem.o
-debug/titlelabel.o
 debug/workitem.o
 debug/main.o
 debug/qrc_res.o
 debug/qrc_qmake_qmake_qm_files.o
+debug/moc_grapharea.o
 debug/moc_mainwindow.o
-debug/moc_menubutton.o
+debug/moc_menuwidget.o
 debug/moc_scheitem.o
-debug/moc_titlelabel.o
 debug/moc_workitem.o

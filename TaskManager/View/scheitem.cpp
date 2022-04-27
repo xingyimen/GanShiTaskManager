@@ -34,8 +34,6 @@ ScheItem::ScheItem(QWidget *parent) :
     endtime.setHMS(9,30,0);
 
     /*测试*/
-
-
     //初始化数据
     ui->starttime->setTime(starttime);
     ui->endtime->setTime(endtime);

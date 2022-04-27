@@ -22,7 +22,7 @@ class Ui_WorkItem
 {
 public:
     QWidget *widget;
-    QPushButton *pushButton;
+    QPushButton *checkbtn;
     QLineEdit *title;
     QTextEdit *description;
 
@@ -34,10 +34,10 @@ public:
         widget = new QWidget(WorkItem);
         widget->setObjectName(QString::fromUtf8("widget"));
         widget->setGeometry(QRect(0, 0, 400, 110));
-        pushButton = new QPushButton(widget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(320, 40, 75, 24));
-        pushButton->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+        checkbtn = new QPushButton(widget);
+        checkbtn->setObjectName(QString::fromUtf8("checkbtn"));
+        checkbtn->setGeometry(QRect(320, 40, 75, 24));
+        checkbtn->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "border:null;\n"
 "background-color:white;\n"
 "}\n"
@@ -68,7 +68,7 @@ public:
     void retranslateUi(QWidget *WorkItem)
     {
         WorkItem->setWindowTitle(QApplication::translate("WorkItem", "Form", nullptr));
-        pushButton->setText(QApplication::translate("WorkItem", "\346\237\245\347\234\213", nullptr));
+        checkbtn->setText(QApplication::translate("WorkItem", "\346\237\245\347\234\213", nullptr));
     } // retranslateUi
 
 };

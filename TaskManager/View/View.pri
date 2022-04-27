@@ -1,15 +1,15 @@
 SOURCES += \
+    $$PWD/grapharea.cpp \
     $$PWD/mainwindow.cpp \
-    $$PWD/menubutton.cpp \
+    $$PWD/menuwidget.cpp \
     $$PWD/scheitem.cpp \
-    $$PWD/titlelabel.cpp \
     $$PWD/workitem.cpp
 
 HEADERS += \
+    $$PWD/grapharea.h \
     $$PWD/mainwindow.h \
-    $$PWD/menubutton.h \
+    $$PWD/menuwidget.h \
     $$PWD/scheitem.h \
-    $$PWD/titlelabel.h \
     $$PWD/workitem.h
 
 FORMS += \

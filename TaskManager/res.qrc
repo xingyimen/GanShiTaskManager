@@ -14,5 +14,6 @@
         <file>res/pomodoro.png</file>
         <file>res/titleset.png</file>
         <file>res/gridding.png</file>
+        <file>res/return.png</file>
     </qresource>
 </RCC>

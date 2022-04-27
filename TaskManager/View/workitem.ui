@@ -22,7 +22,7 @@
      <height>110</height>
     </rect>
    </property>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="checkbtn">
     <property name="geometry">
      <rect>
       <x>320</x>
