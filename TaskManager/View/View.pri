@@ -1,12 +1,14 @@
 SOURCES += \
-    $$PWD/grapharea.cpp \
+    $$PWD/graphicsitem.cpp \
+    $$PWD/graphicsscene.cpp \
     $$PWD/mainwindow.cpp \
     $$PWD/menuwidget.cpp \
     $$PWD/scheitem.cpp \
     $$PWD/workitem.cpp
 
 HEADERS += \
-    $$PWD/grapharea.h \
+    $$PWD/graphicsitem.h \
+    $$PWD/graphicsscene.h \
     $$PWD/mainwindow.h \
     $$PWD/menuwidget.h \
     $$PWD/scheitem.h \

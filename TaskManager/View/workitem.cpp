@@ -1,7 +1,7 @@
 #include "workitem.h"
 #include "ui_workitem.h"
-#include "grapharea.h"
-
+#include <QGraphicsView>
+#include "graphicsscene.h"
 
 WorkItem::WorkItem(QWidget *parent) :
     QWidget(parent),
@@ -46,9 +46,18 @@ WorkItem::~WorkItem()
 }
 
 void WorkItem::CheckQuestTree(){
-    QScrollArea* tree_graph=new GraphArea(this->parentWidget());
-    tree_graph->show();
+    QGraphicsView* tree_graph=new QGraphicsView(this->parentWidget());
+    //设置样式表
+    tree_graph->setDragMode(QGraphicsView::ScrollHandDrag);
+    tree_graph->resize(480,680);
+    tree_graph->move(0,50);
+    tree_graph->setStyleSheet("background-color : rgb(244, 244, 244)"); //测试
 
+    //加载Scene场景
+    GraphicsScene* scene=new GraphicsScene();
+    tree_graph->setScene(scene);
+
+    tree_graph->show();
 }
 
 

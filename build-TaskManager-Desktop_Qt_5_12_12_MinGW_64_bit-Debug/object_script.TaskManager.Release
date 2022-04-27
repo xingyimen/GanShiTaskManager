@@ -1,4 +1,5 @@
-release/grapharea.o
+release/graphicsitem.o
+release/graphicsscene.o
 release/mainwindow.o
 release/menuwidget.o
 release/scheitem.o
@@ -6,7 +7,7 @@ release/workitem.o
 release/main.o
 release/qrc_res.o
 release/qrc_qmake_qmake_qm_files.o
-release/moc_grapharea.o
+release/moc_graphicsscene.o
 release/moc_mainwindow.o
 release/moc_menuwidget.o
 release/moc_scheitem.o
