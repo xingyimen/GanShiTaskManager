@@ -179,6 +179,8 @@ public:
         gridding = new QLabel(quadrant);
         gridding->setObjectName(QString::fromUtf8("gridding"));
         gridding->setGeometry(QRect(10, 150, 450, 450));
+        gridding->setMinimumSize(QSize(450, 450));
+        gridding->setMaximumSize(QSize(450, 450));
         gridding->setStyleSheet(QString::fromUtf8("border-image: url(:/menu/res/gridding.png);"));
         urgency = new QLabel(quadrant);
         urgency->setObjectName(QString::fromUtf8("urgency"));
@@ -417,7 +419,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(1);
+        stackedWidget->setCurrentIndex(2);
         accountinfo->setDefault(false);
 
 

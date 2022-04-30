@@ -39,7 +39,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="MenuWidget" name="schedule">
      <widget class="QScrollArea" name="scrollArea">
@@ -284,6 +284,18 @@
         <width>450</width>
         <height>450</height>
        </rect>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>450</width>
+        <height>450</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>450</width>
+        <height>450</height>
+       </size>
       </property>
       <property name="styleSheet">
        <string notr="true">border-image: url(:/menu/res/gridding.png);</string>

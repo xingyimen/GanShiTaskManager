@@ -2,7 +2,8 @@
 #include "ui_workitem.h"
 #include <QGraphicsView>
 #include "graphicsscene.h"
-
+#include <QLabel>
+#include "graphicsview.h"
 WorkItem::WorkItem(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::WorkItem)
@@ -46,18 +47,36 @@ WorkItem::~WorkItem()
 }
 
 void WorkItem::CheckQuestTree(){
-    QGraphicsView* tree_graph=new QGraphicsView(this->parentWidget());
-    //设置样式表
-    tree_graph->setDragMode(QGraphicsView::ScrollHandDrag);
-    tree_graph->resize(480,680);
-    tree_graph->move(0,50);
-    tree_graph->setStyleSheet("background-color : rgb(244, 244, 244)"); //测试
 
+    GraphicsView* tree_graph=new GraphicsView(this->parentWidget());
+    //打印标签
+    QLabel* label=new QLabel(tree_graph);
+    label->setFixedSize(480,50);
+    label->setText("工作流");
+    label->setAlignment(Qt::AlignCenter);
+    label->setStyleSheet("background-color: rgb(42, 180, 255);color:white;font:25px;font-family: 幼圆;font-weight:bold;");
+    //打印返回按钮
+    QPushButton* returnbtn= new QPushButton(label);
+    returnbtn->setFixedSize(50,50);
+    returnbtn->move(20,0);
+    returnbtn->setStyleSheet("border-image: url(:/menu/res/return.png)");
+    connect(returnbtn,&QPushButton::clicked,[=](){
+        tree_graph->close();
+        tree_graph->~GraphicsView();
+    });
     //加载Scene场景
     GraphicsScene* scene=new GraphicsScene();
     tree_graph->setScene(scene);
-
     tree_graph->show();
+
+
+
+
+
+
+
+
+
 }
 
 

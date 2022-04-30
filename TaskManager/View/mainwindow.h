@@ -14,6 +14,12 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    //四象限的方法
+    void RefreshQuadrant(/*链表*/);
+    void InsertQuadrant();
+protected:
+    //四象限的鼠标监视
+    virtual bool eventFilter ( QObject * watched, QEvent * event );
 
 private:
     Ui::MainWindow *ui;
