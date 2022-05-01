@@ -1,6 +1,8 @@
 release/addpomodoro.o
 release/addquadrant.o
 release/addschedule.o
+release/datashowdtl.o
+release/datetimerangewidget.o
 release/graphicsitem.o
 release/graphicsscene.o
 release/graphicsview.o
@@ -10,6 +12,7 @@ release/quadrantitem.o
 release/scheitem.o
 release/workitem.o
 release/datalist.o
+release/linklist.o
 release/mytime.o
 release/promodoroclock.o
 release/quadrant.o
@@ -23,6 +26,8 @@ release/qrc_qmake_qmake_qm_files.o
 release/moc_addpomodoro.o
 release/moc_addquadrant.o
 release/moc_addschedule.o
+release/moc_datashowdtl.o
+release/moc_datetimerangewidget.o
 release/moc_graphicsscene.o
 release/moc_graphicsview.o
 release/moc_mainwindow.o

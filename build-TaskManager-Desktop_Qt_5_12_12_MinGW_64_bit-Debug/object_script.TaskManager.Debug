@@ -1,6 +1,8 @@
 debug/addpomodoro.o
 debug/addquadrant.o
 debug/addschedule.o
+debug/datashowdtl.o
+debug/datetimerangewidget.o
 debug/graphicsitem.o
 debug/graphicsscene.o
 debug/graphicsview.o
@@ -10,6 +12,7 @@ debug/quadrantitem.o
 debug/scheitem.o
 debug/workitem.o
 debug/datalist.o
+debug/linklist.o
 debug/mytime.o
 debug/promodoroclock.o
 debug/quadrant.o
@@ -23,6 +26,8 @@ debug/qrc_qmake_qmake_qm_files.o
 debug/moc_addpomodoro.o
 debug/moc_addquadrant.o
 debug/moc_addschedule.o
+debug/moc_datashowdtl.o
+debug/moc_datetimerangewidget.o
 debug/moc_graphicsscene.o
 debug/moc_graphicsview.o
 debug/moc_mainwindow.o

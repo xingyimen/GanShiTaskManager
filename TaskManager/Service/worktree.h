@@ -30,7 +30,6 @@ public:
 	/*树的删除*/
 	bool delete_node(WorkTree&);  //删除子节点
 	bool delete_tree(WorkTree&);  //删除整棵树
-
     /*Dao层接口*/
    WorkflowDao toDaoItem();
    WorkTree(WorkflowDao& item);

@@ -252,6 +252,7 @@ Makefile: ../TaskManager/TaskManager.pro C:/Qt/5.12.12/mingw73_64/mkspecs/win32-
 		C:/Qt/5.12.12/mingw73_64/mkspecs/features/yacc.prf \
 		C:/Qt/5.12.12/mingw73_64/mkspecs/features/lex.prf \
 		../TaskManager/TaskManager.pro \
+		C:/Qt/5.12.12/mingw73_64/lib/Qt5Charts.prl \
 		C:/Qt/5.12.12/mingw73_64/lib/Qt5Widgets.prl \
 		C:/Qt/5.12.12/mingw73_64/lib/Qt5Gui.prl \
 		C:/Qt/5.12.12/mingw73_64/lib/Qt5Sql.prl \
@@ -447,6 +448,7 @@ C:/Qt/5.12.12/mingw73_64/mkspecs/features/exceptions.prf:
 C:/Qt/5.12.12/mingw73_64/mkspecs/features/yacc.prf:
 C:/Qt/5.12.12/mingw73_64/mkspecs/features/lex.prf:
 ../TaskManager/TaskManager.pro:
+C:/Qt/5.12.12/mingw73_64/lib/Qt5Charts.prl:
 C:/Qt/5.12.12/mingw73_64/lib/Qt5Widgets.prl:
 C:/Qt/5.12.12/mingw73_64/lib/Qt5Gui.prl:
 C:/Qt/5.12.12/mingw73_64/lib/Qt5Sql.prl:

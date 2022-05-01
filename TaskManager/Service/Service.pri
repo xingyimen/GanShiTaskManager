@@ -1,5 +1,6 @@
 SOURCES += \
     $$PWD/datalist.cpp \
+    $$PWD/linklist.cpp \
     $$PWD/mytime.cpp \
     $$PWD/promodoroclock.cpp \
     $$PWD/quadrant.cpp \
@@ -8,6 +9,7 @@ SOURCES += \
 
 HEADERS += \
     $$PWD/datalist.h \
+    $$PWD/linklist.h \
     $$PWD/mytime.h \
     $$PWD/promodoroclock.h \
     $$PWD/quadrant.h \
