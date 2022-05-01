@@ -6,7 +6,8 @@
 #include "addpomodoro.h"
 #include <QMouseEvent>
 #include "addquadrant.h"
-
+#include "myjsonobject.h"   //数据存储
+#include <QStringList>
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -81,6 +82,38 @@ MainWindow::MainWindow(QWidget *parent)
     //添加四象限
     //安装过滤器
     ui->gridding->installEventFilter(this);
+
+
+
+//   QString theme;
+//   QString describe;
+//   QString start_time;
+//   QString end_time;
+//   QString id;
+
+   QStringList theme,describe,start_time,end_time,id,a,b,c,d,e;
+
+
+
+
+    MyJsonObject test;
+    test.readJson(theme,describe,start_time,end_time,id,a,b,c,d,e);
+    for(int i=0;i<=1;i++){
+        qDebug()<<a[i];
+        qDebug()<<b[i];
+        qDebug()<<c[i];
+        qDebug()<<d[i];
+        qDebug()<<e[i];
+    }
+
+
+
+
+
+
+
+
+
 
 
 

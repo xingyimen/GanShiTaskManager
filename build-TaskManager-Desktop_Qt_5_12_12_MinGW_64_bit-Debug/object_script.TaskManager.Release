@@ -9,6 +9,14 @@ release/menuwidget.o
 release/quadrantitem.o
 release/scheitem.o
 release/workitem.o
+release/datalist.o
+release/mytime.o
+release/promodoroclock.o
+release/quadrant.o
+release/schedule.o
+release/worktree.o
+release/daodata.o
+release/myjsonobject.o
 release/main.o
 release/qrc_res.o
 release/qrc_qmake_qmake_qm_files.o

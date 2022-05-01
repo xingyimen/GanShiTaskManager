@@ -9,6 +9,14 @@ debug/menuwidget.o
 debug/quadrantitem.o
 debug/scheitem.o
 debug/workitem.o
+debug/datalist.o
+debug/mytime.o
+debug/promodoroclock.o
+debug/quadrant.o
+debug/schedule.o
+debug/worktree.o
+debug/daodata.o
+debug/myjsonobject.o
 debug/main.o
 debug/qrc_res.o
 debug/qrc_qmake_qmake_qm_files.o
