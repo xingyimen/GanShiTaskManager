@@ -1,97 +1,179 @@
 #include"quadrant.h"
+#include "linklist.h"
+#include<QDebug>
+#include<QString>
+
+/*è·å–ç³»ç»Ÿæ—¶é—´*/
+extern MyTime GetTime();
+extern MyDate GetDate();
+
+
+int months[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
+//å¢åŠ å¤©æ•°
+void add_day(MyDate& temp, int k)
+{
+    temp.day += k;  //åŠ ä¸Škå¤©
+    int leap = (temp.year % 100 && temp.year % 4 == 0) || temp.year % 400 == 0; //åˆ¤æ–­æ˜¯å¦ä¸ºé—°å¹´
+    //åˆ¤æ–­æ—¥æ•°æ˜¯å¦è¶…è¿‡
+    if (temp.month == 2 && temp.day > months[2] + leap)
+    {
+        temp.day -= (months[2] + leap);
+        ++temp.month;
+    }
+    else if (temp.day > months[temp.month])
+    {
+        temp.day -= months[temp.month] ;
+        ++temp.month;
+    }
+    //åˆ¤æ–­æœˆä»½æ˜¯å¦è¶…è¿‡
+    if (temp.month > 12)
+    {
+        temp.month = 0;
+        ++temp.year;
+    }
+}
+
+//è®¡ç®—å½“å‰æ—¶é—´è·ç¦»æˆªæ­¢æ—¶é—´è¿˜æœ‰å¤šä¹…
+int dis_time(MyTime new_time, MyDate new_date, MyTime end_time, MyDate end_date)
+{
+    int n_minute = new_time.minute, n_hour = new_time.hour;
+    int n_year = new_date.year, n_month = new_date.month, n_day = new_date.day;
+    int cnt = 0;    //è·ç¦»æˆªæ­¢æ—¶é—´çš„æ€»åˆ†é’Ÿ
+    //åˆ¤æ–­å½“å‰æ—¶é—´æ˜¯å¦å·²ç»è¶…è¿‡æˆªæ­¢æ—¶é—´
+    if (end_date.year < n_year || (end_date.year == n_year && end_date.month < n_month)
+        || (end_date.year == n_year && end_date.month == n_month && end_date.day < n_day))
+    {
+        return -1;
+    }
+    //è®¡ç®—è·ç¦»æˆªæ­¢æ—¶é—´è¿˜æœ‰å¤šå°‘åˆ†é’Ÿ
+    int max_minute = 8 * 24 * 60;
+    while (cnt <= max_minute)
+    {
+        ++cnt;
+        ++n_minute;
+        if (n_minute == 60)
+        {
+            n_minute = 0;
+            ++n_hour;
+            if (n_hour == 24)
+            {
+                n_hour = 0;
+                ++n_day;
+                add_day(new_date, 1);
+                n_year = new_date.year, n_month = new_date.month, n_day = new_date.day;
+            }
+        }
+        //å¦‚æœå·²ç»éå†åˆ°æˆªæ­¢æ—¶é—´ï¼Œå°±è¿”å›ç»Ÿè®¡çš„åˆ†é’Ÿ
+        if (n_year == end_date.year && n_month == end_date.month && n_day == end_date.day
+            && n_hour == end_time.hour && n_minute == end_time.minute)
+            return cnt;
+    }
+    return -1;
+}
 
 
 /*
-¹¹Ôìº¯Êı£º
-Ä¬ÈÏÈÎÎñÃû³Æ£ºÎ´ÃüÃû£¬¾ßÌåÃèÊö£ºÂÔ
-ÒªÔÚ¹¹ÔìÊ±¼ÆËã³ö½ØÖ¹Ê±¼ä£¬½ØÖ¹Ê±¼ä¼ÆËãÊÇÅĞ¶ÏÀï×îÓÒ¼´µÚ8¸ñ²î¶àÉÙ¸ñ£¬²î¶àÉÙ¸ñ¾Í½«»ñÈ¡µÄÊ±¼ä¼ÓÉÏ¶àÉÙÌì£¨×î¶à7Ìì£©
-¡¾²ÎÊı¡¿
-int rol£ºÈÎÎñÔÚÏóÏŞµÄºá×ø±ê
-int col£ºÈÎÎñÔÚÏóÏŞµÄ×İ×ø±ê
-Time now£ºµ±Ç°²Ù×÷Ê±¼ä
+æ„é€ å‡½æ•°ï¼š
+è¦åœ¨æ„é€ æ—¶è®¡ç®—å‡ºæˆªæ­¢æ—¶é—´ï¼Œæˆªæ­¢æ—¶é—´è®¡ç®—æ˜¯åˆ¤æ–­é‡Œæœ€å³å³ç¬¬8æ ¼å·®å¤šå°‘æ ¼ï¼Œå·®å¤šå°‘æ ¼å°±å°†è·å–çš„æ—¶é—´åŠ ä¸Šå¤šå°‘å¤©ï¼ˆæœ€å¤š7å¤©ï¼‰
+ã€å‚æ•°ã€‘
+int rolï¼šä»»åŠ¡åœ¨è±¡é™çš„æ¨ªåæ ‡ç¬¬å‡ æ ¼
+int colï¼šä»»åŠ¡åœ¨è±¡é™çš„çºµåæ ‡ç¬¬å‡ æ ¼
+string descriptionï¼šä»»åŠ¡çš„å…·ä½“æè¿°
+Time nowï¼šå½“å‰æ“ä½œæ—¶é—´
 */
-
-
-Quadrant::Quadrant(int rol, int col, MyTime now)
+Quadrant::Quadrant()
 {
 
 }
+Quadrant::Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time,std::string q_name, std::string q_description)
+{
+    this->rol = q_rol;
+    this->col = q_col;
+    this->name=(q_name=="")? "æœªå‘½å":q_name;
+    this->description=(q_description=="")? "null":q_description;
+    //int dis = 8 - q_rol;    //è·ç¦»æˆªæ­¢æ—¶é—´è¿˜æœ‰å¤šå°‘å¤©
+    this->now = GetTime();
+    this->end_date = end_date;
+    //add_day(this->end_date, dis);
+    this->end_time=end_time;
 
-/*
-¹¹Ôìº¯Êı£º
-ÒªÔÚ¹¹ÔìÊ±¼ÆËã³ö½ØÖ¹Ê±¼ä£¬½ØÖ¹Ê±¼ä¼ÆËãÊÇÅĞ¶ÏÀï×îÓÒ¼´µÚ8¸ñ²î¶àÉÙ¸ñ£¬²î¶àÉÙ¸ñ¾Í½«»ñÈ¡µÄÊ±¼ä¼ÓÉÏ¶àÉÙÌì£¨×î¶à7Ìì£©
-¡¾²ÎÊı¡¿
-int rol£ºÈÎÎñÔÚÏóÏŞµÄºá×ø±ê
-int col£ºÈÎÎñÔÚÏóÏŞµÄ×İ×ø±ê
-string description£ºÈÎÎñµÄ¾ßÌåÃèÊö
-Time now£ºµ±Ç°²Ù×÷Ê±¼ä
-*/
-Quadrant::Quadrant(int rol, int col, std::string name, std::string description, MyTime now)
+
+
+}
+//ä»å·¥ä½œæµä¸­è¯»å…¥æ•°æ®
+Quadrant::Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time,  WorkTree& item)
 {
 
 }
-
 /*
-Îö¹¹º¯Êı
+ææ„å‡½æ•°
 */
 Quadrant::~Quadrant()
-{}
-
-/*
-´ÓJsonÖĞµ¼ÈëÊı¾İ
-*/
-//Quadrant::Quadrant operator=(const Json& item)
-//{
-
-//}
-
-/*
-·µ»ØÈÕ³ÌÃû³Æ
-*/
-std::string return_name()
 {
-
+    qDebug()<<"åˆ é™¤Quadrant"<<name.c_str();
 }
 
 /*
-·µ»Ø¾ßÌåÃèÊö
+è¿”å›æ—¥ç¨‹åç§°
 */
-std::string return_description()
+std::string Quadrant::return_name()
 {
-
+    return this->name;
 }
 
 /*
-¸üĞÂÊ±¼ä£º
-Ã¿´Î½øÈëËÄÏóÏŞÒ³ÃæÊ±£¬¸üĞÂÒ»´ÎÈÎÎñµÄ×ø±ê
-¡¾²ÎÊı¡¿
-Time new£ºµ±Ç°²Ù×÷µÄ×îĞÂÊ±¼ä
-¡¾²½Öè¡¿
-1¡¢½«ÈÎÎñµÄ½ØÖ¹Ê±¼ä¼õÈ¥´«ÈëµÄ×îĞÂÊ±¼ä£¨ÈÕÆÚ½çÏŞÅĞ¶ÏÒª¿¼ÂÇÊ±¼ä£¬²»ÄÜÒÔ24Ğ¡Ê±Îª½çÏŞ£¬Òª¿´´«ÈëµÄÊ±¼ä£©
-£¨1£©Èç¹ûÏà²îÌìÊıĞ¡ÓÚ1Ìì
-ÌáĞÑÓÃ»§£¬ÈÎÎñ¾ßÌå½ØÖ¹Ê±¼ä²»×ãÒ»Ìì
-£¨2£©Èç¹ûÏà²îÌìÊı´óÓÚ1Ìì
-²»·¢ÏûÏ¢
-£¨3£©Èç¹ûÏà²îÌìÊıÎª¸ºÊı
-ËµÃ÷ÈÎÎñÒÑ¾­µ½´ï»ò³¬¹ı½ØÖ¹Ê±¼ä£¬ÌáĞÑÓÃ»§ÈÎÎñÒÑ¾­½áÊø£¬²¢ÇÒ·µ»Øtrue£¬ËµÃ÷¸ÃÈÎÎñÒª½øĞĞÉ¾³ı²Ù×÷
-2¡¢Èç¹ûÈÎÎñÃ»ÓĞ½áÊø£¬¸üĞÂcol¼´×İ×ø±ê£¬²¢ÇÒ·µ»Øfalse
+è¿”å›å…·ä½“æè¿°
 */
-bool update(MyTime new_time)
+std::string Quadrant::return_description()
 {
-
+    return this->description;
 }
 
-/*Dao²ã½Ó¿Ú*/
+/*
+æ›´æ–°æ—¶é—´ï¼š
+æ¯æ¬¡è¿›å…¥å››è±¡é™é¡µé¢æ—¶ï¼Œæ›´æ–°ä¸€æ¬¡ä»»åŠ¡çš„åæ ‡
+ã€å‚æ•°ã€‘
+Time newï¼šå½“å‰æ“ä½œçš„æœ€æ–°æ—¶é—´
+ã€æ­¥éª¤ã€‘
+1ã€å°†ä»»åŠ¡çš„æˆªæ­¢æ—¶é—´å‡å»ä¼ å…¥çš„æœ€æ–°æ—¶é—´ï¼ˆæ—¥æœŸç•Œé™åˆ¤æ–­è¦è€ƒè™‘æ—¶é—´ï¼Œä¸èƒ½ä»¥24å°æ—¶ä¸ºç•Œé™ï¼Œè¦çœ‹ä¼ å…¥çš„æ—¶é—´ï¼‰
+ï¼ˆ1ï¼‰å¦‚æœç›¸å·®å¤©æ•°å°äº1å¤©
+æé†’ç”¨æˆ·ï¼Œä»»åŠ¡å…·ä½“æˆªæ­¢æ—¶é—´ä¸è¶³ä¸€å¤©
+ï¼ˆ2ï¼‰å¦‚æœç›¸å·®å¤©æ•°å¤§äº1å¤©
+ä¸å‘æ¶ˆæ¯
+ï¼ˆ3ï¼‰å¦‚æœç›¸å·®å¤©æ•°ä¸ºè´Ÿæ•°
+è¯´æ˜ä»»åŠ¡å·²ç»åˆ°è¾¾æˆ–è¶…è¿‡æˆªæ­¢æ—¶é—´ï¼Œæé†’ç”¨æˆ·ä»»åŠ¡å·²ç»ç»“æŸï¼Œå¹¶ä¸”è¿”å›trueï¼Œè¯´æ˜è¯¥ä»»åŠ¡è¦è¿›è¡Œåˆ é™¤æ“ä½œ
+2ã€å¦‚æœä»»åŠ¡æ²¡æœ‰ç»“æŸï¼Œæ›´æ–°colå³çºµåæ ‡ï¼Œå¹¶ä¸”è¿”å›false
+*/
+bool Quadrant::update()
+{
+    MyTime new_time=GetTime();
+    MyDate new_date=GetDate();
+    int n_hour = new_time.hour, n_minute = new_time.minute;
+    int n_year = new_date.year, n_month = new_date.month, n_day = new_date.day;
+    //å¦‚æœå½“å‰æ—¶é—´è·ç¦»
+    int dis = dis_time(new_time, new_date, this->end_time, this->end_date);
+    //å¦‚æœè¶…è¿‡æˆªæ­¢æ—¶é—´ï¼Œè¿”å›trueæç¤ºè¦åˆ é™¤è¯¥ä»»åŠ¡
+    if (dis == -1)
+        return true;
+    //å¦åˆ™ï¼Œæ›´æ–°åæ ‡
+    else
+    {
+        this->rol = 7 - dis / 1440;
+        return false;
+    }
+}
+
+/*Daoå±‚æ¥å£*/
 QuadrantDao Quadrant::toDaoItem()
 {
-    //ËùÓĞÊı¾İ×ªstring
+    //æ‰€æœ‰æ•°æ®è½¬string
     QuadrantDao daoitem;
 
 }
 
 Quadrant::Quadrant(QuadrantDao& daoitem)
 {
-    //string×ªÊı¾İ
+    //stringè½¬æ•°æ®
 
 }
 

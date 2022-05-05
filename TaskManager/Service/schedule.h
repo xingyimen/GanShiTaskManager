@@ -4,32 +4,32 @@
 #include<string>
 #include "mytime.h"
 #include "daodata.h"
+#include"worktree.h"
+#include"quadrant.h"
 
-//ÈÕ³Ì½çÃæ²¿·Ö
+
+
+//æ—¥ç¨‹ç•Œé¢éƒ¨åˆ†
 class Schedule
 {
 private:
-    std::string name;			//ÈÕ³ÌÃû³Æ
-    std::string description;		//¾ßÌåÃèÊö
-	MyTime start_time;		//ÈÕ³ÌµÄ¿ªÊ¼Ê±¼ä
-	MyTime end_time;			//ÈÕ³ÌµÄ½áÊøÊ±¼ä
-	Schedule* next;			//Ö¸ÏòÏÂÒ»¸öÈÕ³Ì
-	Schedule* prev;			//Ö¸ÏòÉÏÒ»¸öÈÕ³Ì
+    std::string name;			//æ—¥ç¨‹åç§°
+    std::string description;		//å…·ä½“æè¿°
+    MyTime start_time;		//æ—¥ç¨‹çš„å¼€å§‹æ—¶é—´
+    MyTime end_time;			//æ—¥ç¨‹çš„ç»“æŸæ—¶é—´
 public:
-    Schedule(std::string name, std::string description, MyTime start_time, MyTime end_time, int flag);	//¹¹Ôìº¯Êı
-	~Schedule();	//Îö¹¹º¯Êı
-	/*½«ĞÅÏ¢´«¸øQT²ã*/
-    std::string return_name();					//·µ»ØÈÕ³ÌÃû³Æ
-    std::string return_description();			//·µ»ØÃèÊö
-	MyTime return_time();						//·µ»ØÆğÊ¼Ê±¼äºÍ½áÊøÊ±¼ä
-
-    /*É¾³ıÈÕ³Ì½Úµã*/
-	bool delete_schedule(Schedule* head);	//É¾³ıÈÕ³Ì
-
-    /*Dao²ã½Ó¿Ú*/
+    Schedule(std::string name, std::string description, MyTime start_time, MyTime end_time);	//æ„é€ å‡½æ•°
+    Schedule(WorkTree& item, MyTime start_time, MyTime end_time); //ä»å·¥ä½œæµå¯¼å…¥æ•°æ®
+    Schedule(Quadrant& item, MyTime start_time, MyTime end_time); //ä»å››è±¡é™å¯¼å…¥æ•°æ®
+    ~Schedule();	//ææ„å‡½æ•°
+    /*Qtæ¥å£*/
+    std::string getname(){return name;}
+    std::string getdescription(){return description;}
+    MyTime getstarttime(){return start_time;}
+    MyTime getendtime(){return end_time;}
+    /*Daoå±‚æ¥å£*/
    ScheduleDao toDaoItem();
    Schedule(ScheduleDao& item);
 };
-
 
 #endif

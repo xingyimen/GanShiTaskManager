@@ -11,11 +11,12 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QDateTimeEdit>
+#include <QtWidgets/QDateEdit>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QTextEdit>
+#include <QtWidgets/QTimeEdit>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,7 +31,8 @@ public:
     QLineEdit *lineEdit;
     QTextEdit *textEdit;
     QLabel *label;
-    QDateTimeEdit *dateTimeEdit;
+    QDateEdit *dateEdit;
+    QTimeEdit *timeEdit;
 
     void setupUi(QWidget *AddQuadrant)
     {
@@ -63,7 +65,7 @@ public:
 ""));
         add_wf_item = new QPushButton(widget);
         add_wf_item->setObjectName(QString::fromUtf8("add_wf_item"));
-        add_wf_item->setGeometry(QRect(210, 30, 75, 40));
+        add_wf_item->setGeometry(QRect(210, 20, 75, 40));
         add_wf_item->setMinimumSize(QSize(75, 40));
         add_wf_item->setMaximumSize(QSize(75, 40));
         add_wf_item->setStyleSheet(QString::fromUtf8("QPushButton{\n"
@@ -120,19 +122,34 @@ public:
         label->setStyleSheet(QString::fromUtf8("QLabel{\n"
 "	background-color: white;\n"
 "}"));
-        dateTimeEdit = new QDateTimeEdit(widget);
-        dateTimeEdit->setObjectName(QString::fromUtf8("dateTimeEdit"));
-        dateTimeEdit->setGeometry(QRect(90, 60, 101, 22));
-        dateTimeEdit->setStyleSheet(QString::fromUtf8("QDateTimeEdit{\n"
-"border:1px solid white;\n"
+        dateEdit = new QDateEdit(widget);
+        dateEdit->setObjectName(QString::fromUtf8("dateEdit"));
+        dateEdit->setGeometry(QRect(90, 60, 81, 21));
+        dateEdit->setStyleSheet(QString::fromUtf8("QDateEdit{\n"
+"border:0px solid white;\n"
 "background-color:white;\n"
 "}\n"
-"QDateTimeEdit::up-button{\n"
+"QDateEdit::up-button{\n"
 "background-color:white;\n"
 "}\n"
-"QDateTimeEdit::down-button{\n"
+"QDateEdit::down-button{\n"
 "background-color:white;\n"
 "}"));
+        timeEdit = new QTimeEdit(widget);
+        timeEdit->setObjectName(QString::fromUtf8("timeEdit"));
+        timeEdit->setGeometry(QRect(160, 60, 51, 21));
+        timeEdit->setStyleSheet(QString::fromUtf8("QTimeEdit{\n"
+"border:0px solid white;\n"
+"background-color:white;\n"
+"}\n"
+""));
+        finish->raise();
+        lineEdit->raise();
+        textEdit->raise();
+        label->raise();
+        dateEdit->raise();
+        timeEdit->raise();
+        add_wf_item->raise();
 
         retranslateUi(AddQuadrant);
 

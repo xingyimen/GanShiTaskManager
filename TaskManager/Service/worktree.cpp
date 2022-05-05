@@ -1,101 +1,219 @@
 #include"worktree.h"
+#include<QDebug>
+#include "myjsonobject.h"
+
+extern int IDWorkTree=1; //ä»Jsonè¯»å‡ºæ–­ç‚¹è®°å½•
+extern Linklist<WorkflowDao>* WorkDaoList;  //å…¨å±€å˜é‡ï¼Œè£…è½½æ—¥ç¨‹çš„é“¾è¡¨
+extern Linklist<WorkTree>* worklist; /*å…¨å±€å˜é‡WorkTreeçš„é“¾è¡¨*/
+
 WorkTree::WorkTree() {
-	//Ä¬ÈÏ¹¹Ôìº¯Êı£¨Ä¬ÈÏÎªº¢×Ó½Úµã¡¢Êé¡¢Î´¶Á¡¢Ãû³ÆÎ´ÃüÃû£©
-	root_node_type = WorkTree::Child;
-	node_type = WorkTree::Book;
-	flag = WorkTree::Unfinished;
-	std::string name("Î´ÃüÃû");
+    //é»˜è®¤æ„é€ å‡½æ•°ï¼ˆé»˜è®¤ä¸ºå­©å­èŠ‚ç‚¹ã€ä¹¦ã€æœªè¯»ã€åç§°æœªå‘½åï¼‰
+    id=IDWorkTree++;
+    root_node_type = WorkTree::Child;
+    node_type = WorkTree::Book;
+    flag = WorkTree::Unfinished;
+    book="æœªå‘½å";
 }
-
+/*æ ¹èŠ‚ç‚¹*/
 WorkTree::WorkTree(std::string name) {
-	//¹¹Ôìº¯Êı£¨´«ÈëÃû³Æ£©£¨½ÚµãÀàĞÍÄ¬ÈÏ¸ù¡¢Ä¬ÈÏÎ´¶Á¡¢Ä¬ÈÏË÷Òı£©
-	root_node_type = WorkTree::Root;
-	node_type = WorkTree::Index;
-	flag = WorkTree::Unfinished;
-    //std::string name;
+    qDebug()<<"WorkTree create";
+    //æ„é€ å‡½æ•°ï¼ˆä¼ å…¥åç§°ï¼‰ï¼ˆèŠ‚ç‚¹ç±»å‹é»˜è®¤æ ¹ã€é»˜è®¤æœªè¯»ã€é»˜è®¤ç´¢å¼•ï¼‰
+    id=IDWorkTree++;
+    root_node_type = WorkTree::Root;
+    node_type = WorkTree::Index;
+    flag = WorkTree::Unfinished;
+    book=name;
+    sibling=nullptr;
+    child=nullptr;
 }
 
-WorkTree::WorkTree(std::string name, int qttype) {
-	//¹¹Ôìº¯Êı£¨´«Èë½ÚµãÃû³Æ¡¢½ÚµãÀàĞÍ£¨Ë÷Òı/Êé£©£©£¨Ä¬ÈÏº¢×Ó¡¢Ä¬ÈÏÎ´¶Á£©
-	root_node_type = WorkTree::Child;
-	flag = WorkTree::Unfinished;
-	node_type = qttype;					//´«ÈëµÄ½ÚµãÀàĞÍ
-    //std::string name;
+WorkTree::WorkTree(WorkTree& parent,std::string name, int qttype) {
+    //æ„é€ å‡½æ•°ï¼ˆä¼ å…¥èŠ‚ç‚¹åç§°ã€èŠ‚ç‚¹ç±»å‹ï¼ˆç´¢å¼•/ä¹¦ï¼‰ï¼‰ï¼ˆé»˜è®¤å­©å­ã€é»˜è®¤æœªè¯»ï¼‰
+    id=IDWorkTree++;
+    root_node_type = WorkTree::Child;
+    flag = WorkTree::Unfinished;
+    node_type = qttype;					//ä¼ å…¥çš„èŠ‚ç‚¹ç±»å‹
+    this->child=nullptr;
+    book = name;
+    WorkTree* p =&parent;
+    if(parent.child){
+        this->sibling=parent.child;
+        parent.child=this;
+    }
+    else {
+        this->sibling=nullptr;
+        parent.child=this;
+    }
 }
+
 
 WorkTree::~WorkTree() {
-
+   qDebug()<<"ææ„WorkTree";
 }
 
-/*Dao²ã½Ó¿Ú*/
+/*Daoå±‚æ¥å£*/
 WorkflowDao WorkTree::toDaoItem()
 {
-    //ËùÓĞÊı¾İ×ªstring
-    WorkflowDao daoitem;
-
+    //æ‰€æœ‰æ•°æ®è½¬string,
+        //è½¬å‡ºï¼Ÿ
+        WorkflowDao daoitem;
+        //å­—ç¬¦ä¸²=æ•´å½¢
+        daoitem.id = std::to_string(id);
+        daoitem.root_node_type = std::to_string(root_node_type);
+        daoitem.book = book;
+        daoitem.node_type = std::to_string(node_type);
+        daoitem.flag = std::to_string(flag);
+        daoitem.child = std::to_string(this->child->id);
+        daoitem.sibling = std::to_string(this->sibling->id);
 }
 WorkTree::WorkTree(WorkflowDao& daoitem)
 {
-    //string×ªÊı¾İ
+    //stringè½¬æ•°æ®
+        //è½¬å…¥ï¼Ÿ
+        id = atoi(daoitem.id.c_str());
+        root_node_type = atoi(daoitem.root_node_type.c_str());
+        book = daoitem.book;
+        node_type = atoi(daoitem.node_type.c_str());
+        flag = atoi(daoitem.flag.c_str());
+        child=nullptr;
+        sibling=nullptr;
+}
+void SaveWorkflow(){
+    /*å­˜å‚¨æ‰€æœ‰Workflowæ•°æ®*/
+    /*
+    1ã€worklistæ˜¯ä¸€ä¸ªå•é“¾è¡¨ï¼Œé‡Œé¢å­˜å‚¨äº†æ‰€æœ‰çš„æ ¹èŠ‚ç‚¹
+    2ã€ï¼ˆ1ï¼‰éœ€è¦å­˜å‚¨ä»¥æ ¹èŠ‚ç‚¹ä¸ºé¦–çš„æ•´ä¸ªæ ‘çš„æ‰€æœ‰èŠ‚ç‚¹ï¼ˆ2ï¼‰éœ€è¦å­˜å‚¨æ‰€æœ‰æ ¹èŠ‚ç‚¹
+    3ã€å­˜å‚¨ä»£ç å¦‚ä¸‹
+    MyJsonObject json;     //åˆ›å»ºä¸€ä¸ªDaoå±‚å¯¹è±¡
+    WorkflowDao a=(éå†åˆ°çš„èŠ‚ç‚¹).toDaoItem;   //æŠŠWorkTreeè½¬åŒ–ä¸ºWorkflowDao
+    json.writeJson(a)   //æŠŠWorkflowDaoå†™å…¥Json
+    */
 
 }
-/*´ÓÊı×éÖĞ*/
+void GetWorkflow(){
+    /*ä»WorkDaoListtå…¨å±€å˜é‡é“¾è¡¨ä¸­è¯»å‡ºæ•°æ®*/
+    /*
+    1ã€WorkDaoListå­˜å‚¨äº†æ‰€æœ‰çš„ä»Jsonæ–‡ä»¶ä¸­è¯»å–å‡ºæ¥çš„WorkflowDaoèŠ‚ç‚¹ï¼ˆå¯èƒ½åŒ…å«å¤šé¢—æ ‘ï¼‰
+    2ã€ï¼ˆ1ï¼‰éå†WorkDaoListé“¾è¡¨å–å‡ºæ‰€æœ‰èŠ‚ç‚¹å¹¶è¿æ¥æˆæ ‘ï¼ˆ2ï¼‰æŠŠæ‰€æœ‰æ ¹èŠ‚ç‚¹è¿æ¥åˆ°worklist
+    3ã€è°ƒç”¨WorkDaoList->CleanList()æ¸…ç©ºé“¾è¡¨
+    */
 
 
 
 
 
-
-
+}
 /*
 WorkTree operator=(const Json& item) {
-	//´ÓJsonÖĞµ¼ÈëÊı¾İ
-	int i = 0;
-	int p = 0;
+    //ä»Jsonä¸­å¯¼å…¥æ•°æ®
+    int i = 0;
+    int p = 0;
 
-	while (i < sizeof(item) / sizeof(item[0])) {
-		if (item[i].root_node_type == WorkTree::Root) {
-			return item[i];
-			i++;
-			if (item[i].node_type == WorkTree::Index) {
-				item[i - 1].child = &item[i];
-				p = i;
-				i++;
-				if (item[i].node_type == WorkTree::Book) {
-					item[i - 1].child = &item[i];
-					i++;
-					if (item[i].node_type == WorkTree::Book) {
-						item[i - 1].sibing = &item[i];
-						i++;
-					}
-				}
-				else {
-					item[i - 1].sibling = &item[i];
-					i++;
-				}
-			}
-		}
-	}
-	
+    while (i < sizeof(item) / sizeof(item[0])) {
+        if (item[i].root_node_type == WorkTree::Root) {
+            return item[i];
+            i++;
+            if (item[i].node_type == WorkTree::Index) {
+                item[i - 1].child = &item[i];
+                p = i;
+                i++;
+                if (item[i].node_type == WorkTree::Book) {
+                    item[i - 1].child = &item[i];
+                    i++;
+                    if (item[i].node_type == WorkTree::Book) {
+                        item[i - 1].sibing = &item[i];
+                        i++;
+                    }
+                }
+                else {
+                    item[i - 1].sibling = &item[i];
+                    i++;
+                }
+            }
+        }
+    }
 
-}    
+
+}
 */
-/*Ìá¹©¸øQt¹¤×÷Á÷½çÃæÏÔÊ¾µÄ½Ó¿Ú*/
-std::string return_progress() {
-	//·µ»ØÄ¿Ç°ÔÚ¶ÁµÄÊéÃû¡ª¡ªÌá¹©¸øÃèÊö
+
+/*æä¾›ç»™Qtå·¥ä½œæµç•Œé¢æ˜¾ç¤ºçš„æ¥å£*/
+//ä¸€å®šæ˜¯æ ¹èŠ‚ç‚¹è°ƒç”¨
+std::string WorkTree::return_progress() {
+    //è¿”å›ç›®å‰åœ¨è¯»çš„ä¹¦åâ€”â€”æä¾›ç»™æè¿°
+    if (this->child!=nullptr) {
+        if (this->flag == WorkTree::Reading) {
+            return this->book;
+        }
+        else {
+            this->child->return_progress();
+            this->sibling->return_progress();
+        }
+    }
+    else {
+        return "null";
+    }
 
 }
-std::string return_root() {
-	//·µ»Ø¸ù½ÚµãÃû³Æ¡ª¡ªÌá¹©¸ø±êÌâ
+
+//ä¸€å®šæ˜¯æ ¹èŠ‚ç‚¹è°ƒç”¨
+std::string WorkTree::return_root() {
+   return book;
 }
 
-/*Ê÷µÄÉ¾³ı*/
-bool delete_node(WorkTree&) {
-	//É¾³ı×Ó½Úµã,É¾È¥×ó×ÓÊ÷£¬½«ÓÒ×ÓÊ÷ÈÃÉÏÌá
+/*æ ‘çš„åˆ é™¤*/
+bool WorkTree::delete_node(WorkTree*& root, int key) {
 
-}  
-bool delete_tree(WorkTree&) {
-	//É¾³ıÕû¿ÃÊ÷
+    //åˆ é™¤å­èŠ‚ç‚¹,åˆ å»å·¦å­æ ‘ï¼Œå°†å³å­æ ‘è®©ä¸Šæ
+    while (root) {
+            if (root->id > key) {
+                return delete_node(root->sibling, key);
+            }
+            else if (root->id < key)
+            {
+                return delete_node(root->child, key);
+            }//æ‰¾åˆ°å¾…åˆ é™¤èŠ‚ç‚¹
+            else {
+                WorkTree* parent = NULL;
+                //å¶å­ç»“ç‚¹
+                if (root->child == NULL && root->sibling == NULL) {
+                    delete root;
+                }
+                //åªæœ‰å­©å­
+                else if (root->sibling == NULL && root->child != NULL) {
+                    delete root;
+                }
+                //åªæœ‰å…„å¼Ÿ
+                else if (root->child == NULL) {
+                    if (parent->sibling == root) {
+                        parent->sibling = root->sibling;
+                    }
+                    else if (parent->child == root) {
+                        parent->child = root->sibling;
+                    }
+                }
+                //å­©å­å…„å¼Ÿéƒ½å­˜åœ¨
+                else {
+                    if (parent->sibling == root) {
+                        parent->sibling = root->sibling;
+                    }
+                    else if (parent->child == root) {
+                        parent->child = root->sibling;
+                    }
+                }
+                return true;
+            }
+        }
+        return false;
+
+}
 
 
-} 
+void WorkTree::delete_tree() {
+    //åˆ é™¤æ•´æ£µæ ‘
+    if(this->sibling)  this->sibling->delete_tree();
+    if(this->child)  this->child->delete_tree();
+    this->~WorkTree();
+}
+
+

@@ -1,35 +1,42 @@
 #ifndef QUADRANT_H
 #define QUADRANT_H
-
+#include"worktree.h"
 #include<iostream>
 #include<string>
 #include "mytime.h"
 #include "daodata.h"
+
 class Quadrant
 {
 private:
-	int rol;				//ÈÎÎñÔÚÏóÏŞµÄºá×ø±ê
-	int col;				//ÈÎÎñÔÚÏóÏŞµÄ×İ×ø±ê
-    std::string name;			//ÈÎÎñÃû³Æ
-    std::string description;		//¾ßÌåÃèÊö
-	MyTime now;				//Ê±¼ä
-	MyTime end_time;			//½ØÖ¹Ê±¼ä
+    int rol;					//ä»»åŠ¡åœ¨è±¡é™çš„æ¨ªåæ ‡
+    int col;					//ä»»åŠ¡åœ¨è±¡é™çš„çºµåæ ‡
+    std::string name;			//ä»»åŠ¡åç§°
+    std::string description;	//å…·ä½“æè¿°
+    MyTime now;					//æ—¶é—´
+    MyTime end_time;			//æˆªæ­¢æ—¶é—´
+    MyDate end_date;			//æˆªæ­¢æ—¥æœŸ
 public:
-	Quadrant(int rol, int col, MyTime now);		//¹¹Ôìº¯Êı£¨Ä¬ÈÏÈÎÎñÃû³Æ£ºÎ´ÃüÃû£¬¾ßÌåÃèÊö£ºÂÔ£©
-    Quadrant(int rol, int col, std::string name, std::string description, MyTime now);		//¹¹Ôìº¯Êı
-	~Quadrant();	//Îö¹¹º¯Êı
-    //Quadrant operator=(const Json& item);   //´ÓJsonÖĞµ¼ÈëÊı¾İ
-	/*½«ĞÅÏ¢´«¸øQT²ã*/
-    std::string return_name();		//·µ»ØÈÕ³ÌÃû³Æ
-    std::string return_description();//·µ»Ø¾ßÌåÃèÊö
-	/*¸üĞÂÊ±¼ä*/
-    bool update(MyTime new_time);	//¸üĞÂÊ±¼ä
+    Quadrant();
+    Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time, std::string name, std::string description);		//æ„é€ å‡½æ•°
+    Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time, WorkTree& item);  //ä»å·¥ä½œæµä¸­è¯»å…¥æ•°æ®
+    ~Quadrant();	//ææ„å‡½æ•°
+    /*å°†ä¿¡æ¯ä¼ ç»™QTå±‚*/
+    int return_rol(){return rol;}
+    int return_col(){return col;}
+    std::string return_name();		//è¿”å›æ—¥ç¨‹åç§°
+    std::string return_description();//è¿”å›å…·ä½“æè¿°
+    MyDate return_enddate(){return end_date;}
+    MyTime return_endtime(){return end_time;}
 
-    /*Dao²ã½Ó¿Ú*/
+
+
+    /*æ›´æ–°æ—¶é—´*/
+    bool update();	//æ›´æ–°æ—¶é—´
+
+    /*Daoå±‚æ¥å£*/
    QuadrantDao toDaoItem();
    Quadrant(QuadrantDao& item);
-
-
 
 };
 

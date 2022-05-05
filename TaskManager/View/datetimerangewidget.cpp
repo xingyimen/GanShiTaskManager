@@ -19,18 +19,18 @@ DateTimeRangeWidget::~DateTimeRangeWidget()
 
 void DateTimeRangeWidget::initPage()
 {
-//	connect(ui->btnYes, &QPushButton::clicked, this, [this] {
+//    connect(ui->btnYes, &QPushButton::clicked, this, [this] {
 
-//		QString start = ui->wdgStart->datetime();
-//		QString end = ui->wdgEnd->datetime();
+//        QString start = ui->wdgStart->datetime();
+//        QString end = ui->wdgEnd->datetime();
 
-//		emit signal_dateTime(QString("%1 - %2").arg(start).arg(end));
-//	});
+//        emit signal_dateTime(QString("%1 - %2").arg(start).arg(end));
+//    });
 
-//	connect(ui->btnCancel, &QPushButton::clicked, this, [this] {
-//		emit signal_cancel();
-//	});
+//    connect(ui->btnCancel, &QPushButton::clicked, this, [this] {
+//        emit signal_cancel();
+//    });
 
-//	QDateTime date = QDateTime::currentDateTime();
-//	ui->wdgStart->setDateTime(date.addDays(-7).toString("yyyy-MM-dd hh:mm:ss"));
+//    QDateTime date = QDateTime::currentDateTime();
+//    ui->wdgStart->setDateTime(date.addDays(-7).toString("yyyy-MM-dd hh:mm:ss"));
 }

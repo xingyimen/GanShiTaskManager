@@ -33,9 +33,9 @@ public:
     {
         if (ScheItem->objectName().isEmpty())
             ScheItem->setObjectName(QString::fromUtf8("ScheItem"));
-        ScheItem->resize(380, 110);
-        ScheItem->setMinimumSize(QSize(380, 110));
-        ScheItem->setMaximumSize(QSize(380, 110));
+        ScheItem->resize(380, 130);
+        ScheItem->setMinimumSize(QSize(380, 130));
+        ScheItem->setMaximumSize(QSize(380, 130));
         ScheItem->setStyleSheet(QString::fromUtf8("QWidget{\n"
 "background-color: rgb(255, 255, 255)\357\274\233\n"
 "	border-color: rgb(147, 147, 147);\n"
@@ -43,7 +43,7 @@ public:
 ""));
         widget = new QWidget(ScheItem);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(0, 0, 380, 110));
+        widget->setGeometry(QRect(0, 20, 380, 110));
         widget->setMinimumSize(QSize(380, 110));
         widget->setMaximumSize(QSize(380, 110));
         widget->setStyleSheet(QString::fromUtf8(""));

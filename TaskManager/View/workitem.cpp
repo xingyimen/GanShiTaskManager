@@ -3,52 +3,52 @@
 #include <QGraphicsView>
 #include "graphicsscene.h"
 #include <QLabel>
+#include <QDebug>
 #include "graphicsview.h"
-WorkItem::WorkItem(QWidget *parent) :
-    QWidget(parent),
+
+extern QWidget* mainwid_p;
+WorkItem::WorkItem(QString title,QWidget *parent) :
+    QWidget(parent),WorkTree(title.toStdString()),
     ui(new Ui::WorkItem)
 {
+
     ui->setupUi(this);
     //设置样式
-    this->resize(320,80);
     ui->widget->setStyleSheet("QWidget#widget{background-color:white;border:1px solid rgb(253,202,36);border-radius:25px;}");
     //设置只读
     ui->title->setReadOnly(true);
     ui->description->setReadOnly(true);
     //设置文字样式
     QFont ft;
-    ft.setPointSize(18);
-    ft.setFamily("Arial");
+    ft.setPointSize(16);
+    ft.setFamily("Segoe UI;");
     ui->title->setFont(ft);
-    ft.setPointSize(15);
+    ft.setPointSize(16);
     ui->checkbtn->setFont(ft);
-    ft.setPointSize(10);
+    ui->deletebtn->setFont(ft);
+    ft.setPointSize(12);
     ui->description->setFont(ft);
     ui->description->setTextColor(QColor(253,202,36));
-
-    /*测试*/
-    title="C++学习";
-    description="Effective C++";
-    ui->title->setText(title);
-    ui->description->setText(description);
-
+    /*初始化数据*/
+    ui->title->setText(return_root().c_str());
     //connect(ui->checkbtn,&QPushButton::clicked,this,&WorkItem::CheckQuestTree);
     connect(ui->checkbtn,&QPushButton::clicked,[=](){
         this->CheckQuestTree();
     });
-
-
+    connect(ui->deletebtn,&QPushButton::clicked,[=](){
+        this->delete_tree();
+    });
 
 }
 
 WorkItem::~WorkItem()
 {
     delete ui;
+    qDebug()<<"析构WorkItem";
 }
 
 void WorkItem::CheckQuestTree(){
-
-    GraphicsView* tree_graph=new GraphicsView(this->parentWidget());
+    GraphicsView* tree_graph=new GraphicsView(mainwid_p);
     //打印标签
     QLabel* label=new QLabel(tree_graph);
     label->setFixedSize(480,50);
@@ -68,16 +68,14 @@ void WorkItem::CheckQuestTree(){
     GraphicsScene* scene=new GraphicsScene();
     tree_graph->setScene(scene);
     tree_graph->show();
-
-
-
-
-
-
-
-
-
 }
 
+void WorkItem::Reflesh(QPoint point){
+   move(point);
+   ui->description->setText(this->return_progress().c_str());
+   qDebug()<<"reflesh";
+   show();
+
+}
 
 

@@ -2,17 +2,24 @@
 #define QUADRANTITEM_H
 
 #include <QWidget>
+#include"quadrant.h"
+#include <QDateTime>
+namespace Ui {
+class QuadrantItem;
+}
 
-class QuadrantItem : public QWidget
+class QuadrantItem : public QWidget,public Quadrant
 {
     Q_OBJECT
+
 public:
-    explicit QuadrantItem(QWidget *parent = nullptr);
+    explicit QuadrantItem(int x, int y,QDateTime dt, QString name, QString description,QWidget *parent = nullptr);
+    ~QuadrantItem();
+    void Reflesh();
+    void Check();
+
 private:
-    int emergency;
-    int importance;
-    QString name;
-signals:
+    Ui::QuadrantItem *ui;
 
 };
 

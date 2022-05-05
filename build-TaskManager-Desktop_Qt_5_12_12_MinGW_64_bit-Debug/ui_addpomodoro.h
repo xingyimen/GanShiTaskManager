@@ -14,6 +14,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QTextEdit>
 #include <QtWidgets/QWidget>
 
@@ -30,6 +31,11 @@ public:
     QPushButton *add_wf_item;
     QLabel *label;
     QPushButton *begin;
+    QSpinBox *spinBox_work;
+    QLabel *label_2;
+    QLabel *label_3;
+    QLabel *label_4;
+    QSpinBox *spinBox_relax;
 
     void setupUi(QWidget *AddPomodoro)
     {
@@ -117,7 +123,7 @@ public:
 "}"));
         label = new QLabel(widget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(30, 90, 221, 16));
+        label->setGeometry(QRect(30, 90, 71, 16));
         label->setStyleSheet(QString::fromUtf8("QLabel{\n"
 "	background-color: white;\n"
 "}\n"
@@ -137,6 +143,32 @@ public:
 "QPushButton:pressed{\n"
 "	background-color: gray;\n"
 "}"));
+        spinBox_work = new QSpinBox(widget);
+        spinBox_work->setObjectName(QString::fromUtf8("spinBox_work"));
+        spinBox_work->setGeometry(QRect(100, 90, 41, 22));
+        spinBox_work->setStyleSheet(QString::fromUtf8("\n"
+"background-color: rgb(255, 255, 255);"));
+        spinBox_work->setMaximum(60);
+        spinBox_work->setValue(25);
+        label_2 = new QLabel(widget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+        label_2->setGeometry(QRect(190, 90, 72, 15));
+        label_2->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        label_3 = new QLabel(widget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+        label_3->setGeometry(QRect(150, 90, 31, 20));
+        label_3->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        label_4 = new QLabel(widget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+        label_4->setGeometry(QRect(310, 90, 31, 20));
+        label_4->setStyleSheet(QString::fromUtf8("background-color: rgb(255, 255, 255);"));
+        spinBox_relax = new QSpinBox(widget);
+        spinBox_relax->setObjectName(QString::fromUtf8("spinBox_relax"));
+        spinBox_relax->setGeometry(QRect(260, 90, 41, 22));
+        spinBox_relax->setStyleSheet(QString::fromUtf8("\n"
+"background-color: rgb(255, 255, 255);"));
+        spinBox_relax->setMaximum(60);
+        spinBox_relax->setValue(5);
 
         retranslateUi(AddPomodoro);
 
@@ -148,8 +180,11 @@ public:
         AddPomodoro->setWindowTitle(QApplication::translate("AddPomodoro", "Form", nullptr));
         add_qd_item->setText(QApplication::translate("AddPomodoro", "\345\233\233\350\261\241\351\231\220", nullptr));
         add_wf_item->setText(QApplication::translate("AddPomodoro", "\345\267\245\344\275\234\346\265\201", nullptr));
-        label->setText(QApplication::translate("AddPomodoro", "\344\270\223\346\263\250\346\227\266\351\227\264\357\274\23225min     \344\274\221\346\201\257\346\227\266\351\227\264\357\274\23225min", nullptr));
+        label->setText(QApplication::translate("AddPomodoro", "\344\270\223\346\263\250\346\227\266\351\227\264\357\274\232", nullptr));
         begin->setText(QApplication::translate("AddPomodoro", "\345\274\200\345\247\213", nullptr));
+        label_2->setText(QApplication::translate("AddPomodoro", "\344\274\221\346\201\257\346\227\266\351\227\264\357\274\232", nullptr));
+        label_3->setText(QApplication::translate("AddPomodoro", "min", nullptr));
+        label_4->setText(QApplication::translate("AddPomodoro", "min", nullptr));
     } // retranslateUi
 
 };

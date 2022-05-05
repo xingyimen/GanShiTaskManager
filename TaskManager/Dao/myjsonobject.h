@@ -2,6 +2,7 @@
 #define MYJSONOBJECT_H
 
 #include <QObject>
+#include "daodata.h"
 
 class MyJsonObject
 {
@@ -9,9 +10,12 @@ class MyJsonObject
 public:
     MyJsonObject();
     //写入需要用的方法
-    void writeJson(QString theme,QString describe,QString start_time,QString end_time,QString id);
-    void readJson(QStringList Theme,QStringList Describe,QStringList Start_Time,QStringList End_Time,QStringList Id,QStringList &Th,QStringList &De,QStringList &St,QStringList &En,QStringList &I);
-
+    void writeJson(ScheduleDao& item);   //写日程
+    void readScheJson(QStringList Theme,QStringList Describe,QStringList Start_Time,QStringList End_Time,QStringList Id,QStringList &Th,QStringList &De,QStringList &St,QStringList &En,QStringList &I);  //取日程
+    void writeJson(WorkflowDao& item);   //写工作流
 };
 
 #endif // MYJSONOBJECT_H
+
+//QString theme,QString describe,QString start_time,QString end_time,QString id
+//QStringList Theme,QStringList Describe,QStringList Start_Time,QStringList End_Time,QStringList Id,QStringList &Th,QStringList &De,QStringList &St,QStringList &En,QStringList &I

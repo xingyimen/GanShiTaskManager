@@ -6,9 +6,9 @@ dataShowDtl::dataShowDtl(QWidget *parent) :
     ui(new Ui::dataShowDtl)
 {
     ui->setupUi(this);
-    int width = this->geometry().width();
-    int height = this->geometry().height();
-    this->setFixedSize(width,height); //设置窗体固定大小
+    this->setFixedSize(480,740); //设置窗体固定大小
+    this->move(0,0);
+    this->setStyleSheet("background-color : rgb(244, 244, 244);");
     //setWindowFlags(Qt::CustomizeWindowHint|Qt::FramelessWindowHint);
     CalendWnd = new QCalendarWidget(this);
     CalendWnd->setHidden(true);
@@ -33,6 +33,20 @@ dataShowDtl::dataShowDtl(QWidget *parent) :
                                             "QDateEdit::drop-down{width:%1px;border-image: url(:/menu/res/drop-down-arrow.png);}")
                                         .arg(35).arg(10));
     //ui->horizontalLayout->SetMaximumSize;
+
+    /*返回按钮*/
+    QToolButton* returnbtn= new QToolButton(this);
+    returnbtn->setFixedSize(50,50);
+    returnbtn->move(20,0);
+    returnbtn->setStyleSheet("border-image: url(:/menu/res/return.png)");
+    connect(returnbtn,&QToolButton::clicked,[=](){
+        this->close();
+        this->~dataShowDtl();
+    });
+
+
+
+
 }
 
 dataShowDtl::~dataShowDtl()

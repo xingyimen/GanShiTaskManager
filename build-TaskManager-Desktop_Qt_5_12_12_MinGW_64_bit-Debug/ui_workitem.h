@@ -25,18 +25,24 @@ public:
     QPushButton *checkbtn;
     QLineEdit *title;
     QTextEdit *description;
+    QPushButton *deletebtn;
 
     void setupUi(QWidget *WorkItem)
     {
         if (WorkItem->objectName().isEmpty())
             WorkItem->setObjectName(QString::fromUtf8("WorkItem"));
-        WorkItem->resize(412, 115);
+        WorkItem->resize(420, 130);
+        WorkItem->setMinimumSize(QSize(420, 130));
+        WorkItem->setMaximumSize(QSize(420, 130));
+        WorkItem->setStyleSheet(QString::fromUtf8("QWidget#WorkItem{\n"
+"background-color : rgb(244, 244, 244);\n"
+"}"));
         widget = new QWidget(WorkItem);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(0, 0, 400, 110));
+        widget->setGeometry(QRect(0, 20, 420, 110));
         checkbtn = new QPushButton(widget);
         checkbtn->setObjectName(QString::fromUtf8("checkbtn"));
-        checkbtn->setGeometry(QRect(320, 40, 75, 24));
+        checkbtn->setGeometry(QRect(320, 20, 75, 24));
         checkbtn->setStyleSheet(QString::fromUtf8("QPushButton{\n"
 "border:null;\n"
 "background-color:white;\n"
@@ -54,11 +60,22 @@ public:
 "}"));
         description = new QTextEdit(widget);
         description->setObjectName(QString::fromUtf8("description"));
-        description->setGeometry(QRect(30, 40, 211, 61));
+        description->setGeometry(QRect(30, 50, 211, 41));
         description->setStyleSheet(QString::fromUtf8("QTextEdit{\n"
 "border:0px solid white;\n"
 "background-color:white;\n"
 "}"));
+        deletebtn = new QPushButton(widget);
+        deletebtn->setObjectName(QString::fromUtf8("deletebtn"));
+        deletebtn->setGeometry(QRect(320, 65, 75, 24));
+        deletebtn->setStyleSheet(QString::fromUtf8("QPushButton{\n"
+"border:null;\n"
+"background-color:white;\n"
+"}\n"
+"QPushButton::hover{\n"
+"color:rgb(253,202,36);\n"
+"}\n"
+""));
 
         retranslateUi(WorkItem);
 
@@ -69,6 +86,7 @@ public:
     {
         WorkItem->setWindowTitle(QApplication::translate("WorkItem", "Form", nullptr));
         checkbtn->setText(QApplication::translate("WorkItem", "\346\237\245\347\234\213", nullptr));
+        deletebtn->setText(QApplication::translate("WorkItem", "\345\210\240\351\231\244", nullptr));
     } // retranslateUi
 
 };

@@ -1,87 +1,48 @@
 #include "schedule.h"
 
-//ÈÕ³ÌÀà
+//æ—¥ç¨‹ç±»
 /*
-¹¹Ôìº¯Êı£º
-¡¾²ÎÊı¡¿
-string name£ºÈÕ³ÌÃû³Æ
-string description£ºÈÕ³ÌµÄ¾ßÌåÃèÊö
-Time start_time£ºÈÕ³ÌµÄ¿ªÊ¼Ê±¼ä
-Time end_time£ºÈÕ³ÌµÄ½áÊøÊ±¼ä
-int flag£ºÓÃÓÚÅĞ¶ÏÓÃ»§ÊÇ·ñ´Ó¹¤×÷Á÷ÖĞ»ñÈ¡ÈÕ³ÌÃû³Æ£¬Èç¹û´Ó¹¤×÷Á÷ÖĞ»ñÈ¡flag=1£¬Èç¹ûÖ±½ÓÊäÈëÃû³Æflag=2
+æ„é€ å‡½æ•°ï¼š
+ã€å‚æ•°ã€‘
+string nameï¼šæ—¥ç¨‹åç§°
+string descriptionï¼šæ—¥ç¨‹çš„å…·ä½“æè¿°
+Time start_timeï¼šæ—¥ç¨‹çš„å¼€å§‹æ—¶é—´
+Time end_timeï¼šæ—¥ç¨‹çš„ç»“æŸæ—¶é—´
 */
-Schedule::Schedule(std::string name, std::string description, MyTime start_time, MyTime end_time, int flag)
+Schedule::Schedule(std::string q_name, std::string q_description, MyTime q_start_time, MyTime q_end_time)
 {
+    name=q_name;
+
+
 
 }
 
-/*
-Îö¹¹º¯Êı
-*/
+Schedule::Schedule(WorkTree& item, MyTime start_time, MyTime end_time){
+/*ä»å·¥ä½œæµå¯¼å…¥æ•°æ®*/
+
+
+}
+
+Schedule::Schedule(Quadrant& item, MyTime start_time, MyTime end_time){
+/*ä»å››è±¡é™å¯¼å…¥æ•°æ®*/
+
+
+}
+
 Schedule::~Schedule(){
 
 }
-
-/*
-´ÓJsonÖĞµ¼ÈëÊı¾İ
-*/
-//Schedule::Schedule operator=(const Json& item)
-//{
-
-//}
-
-/*
-·µ»ØÈÕ³ÌµÄÃû³Æ
-*/
-std::string Schedule::return_name()
-{
-
-}
-
-/*
-·µ»ØÈÕ³ÌµÄ¾ßÌåÃèÊö
-*/
-std::string Schedule::return_description()
-{
-
-}
-
-/*
-·µ»ØÈÕ³ÌµÄ¿ªÊ¼ºÍ½áÊøÊ±¼ä
-*/
-MyTime Schedule::return_time()
-{
-
-}
-
-/*
-É¾³ıÈÕ³Ì£º
-¡¾²ÎÊı¡¿
-Schedule* head£ºËùÓĞÈÕ³ÌµÄÍ·Ö¸Õë¼´Í·Ö¸ÕëÖ¸ÏòµÄÏÂÒ»¸öÊÇµÚÒ»¸öÈÕ³Ì
-¡¾²½Öè¡¿
-1¡¢½«¸ÃÈÕ³ÌµÄÉÏÒ»¸öÈÕ³ÌºÍÏÂÒ»¸öÈÕ³Ì½øĞĞÁ¬½Ó
-2¡¢ÊÍ·Å¸ÃÈÕ³ÌµÄÄÚ´æ
-3¡¢·µ»ØÊÇ·ñÉ¾³ı³É¹¦£¬³É¹¦·µ»Øtrue£¬Ê§°Ü·µ»Øfalse
-*/
-bool delete_schedule(Schedule* head)
-{
-
-}
-
-
-
-
-/*Dao²ã½Ó¿Ú*/
+/*Daoå±‚æ¥å£*/
 ScheduleDao Schedule::toDaoItem()
 {
-    //ËùÓĞÊı¾İ×ªstring
     ScheduleDao daoitem;
-
+    /*æ‰€æœ‰æ•°æ®è½¬string*/
+    return daoitem;
 }
 
 Schedule::Schedule(ScheduleDao& daoitem)
 {
-    //string×ªÊı¾İ
+    /*stringè½¬æ•°æ®*/
 
 }
 

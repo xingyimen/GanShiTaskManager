@@ -23,15 +23,15 @@ int main(int argc, char *argv[])
         }
     }
 
-    //登录窗口
 
 
 
 
 
-    //检查驱动
+
+//    检查驱动
 //    qDebug() << QSqlDatabase::drivers();
-//    //连接远程数据库
+    //连接远程数据库
 //    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 //    db.setHostName("124.223.188.73");
 //    db.setUserName("root");
@@ -45,6 +45,7 @@ int main(int argc, char *argv[])
 //        qDebug()<< "连接成功";
 //    }
 
+    //登录窗口
 
     MainWindow w;
     w.show();

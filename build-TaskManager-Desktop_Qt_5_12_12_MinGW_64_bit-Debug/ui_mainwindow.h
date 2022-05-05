@@ -11,6 +11,7 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
@@ -19,9 +20,6 @@
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QWidget>
-#include "menuwidget.h"
-#include "scheitem.h"
-#include "workitem.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -30,29 +28,28 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QStackedWidget *stackedWidget;
-    MenuWidget *schedule;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
-    ScheItem *widget_6;
+    QWidget *schedule;
     QLabel *label;
     QToolButton *pomodorobtn;
     QToolButton *sche_addbtn;
     QToolButton *sche_setbtn;
-    MenuWidget *workflow;
-    WorkItem *widget_7;
+    QScrollArea *ScheScrollArea;
+    QWidget *ScheScrollAreaWidgetContents;
+    QWidget *workflow;
     QLabel *label_2;
     QToolButton *work_addbtn;
     QToolButton *work_setbtn;
-    MenuWidget *quadrant;
+    QGraphicsView *WorkgraphicsView;
+    QWidget *quadrant;
     QLabel *importance;
     QLabel *gridding;
     QLabel *urgency;
     QLabel *aday;
     QLabel *deadline;
     QLabel *label_3;
-    MenuWidget *datagram;
+    QWidget *datagram;
     QLabel *label_4;
-    MenuWidget *set;
+    QWidget *set;
     QPushButton *accountinfo;
     QPushButton *synchronize;
     QPushButton *reset;
@@ -81,21 +78,8 @@ public:
         stackedWidget = new QStackedWidget(centralwidget);
         stackedWidget->setObjectName(QString::fromUtf8("stackedWidget"));
         stackedWidget->setGeometry(QRect(0, 0, 481, 741));
-        schedule = new MenuWidget();
+        schedule = new QWidget();
         schedule->setObjectName(QString::fromUtf8("schedule"));
-        scrollArea = new QScrollArea(schedule);
-        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
-        scrollArea->setGeometry(QRect(-10, 50, 491, 691));
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 489, 689));
-        widget_6 = new ScheItem(scrollAreaWidgetContents);
-        widget_6->setObjectName(QString::fromUtf8("widget_6"));
-        widget_6->setGeometry(QRect(60, 40, 380, 110));
-        widget_6->setMinimumSize(QSize(380, 110));
-        widget_6->setMaximumSize(QSize(380, 110));
-        scrollArea->setWidget(scrollAreaWidgetContents);
         label = new QLabel(schedule);
         label->setObjectName(QString::fromUtf8("label"));
         label->setGeometry(QRect(0, 0, 481, 51));
@@ -130,12 +114,17 @@ public:
 "	border-image: url(:/menu/res/titleset.png)\357\274\233\n"
 "}\n"
 ""));
+        ScheScrollArea = new QScrollArea(schedule);
+        ScheScrollArea->setObjectName(QString::fromUtf8("ScheScrollArea"));
+        ScheScrollArea->setGeometry(QRect(0, 50, 481, 691));
+        ScheScrollArea->setWidgetResizable(true);
+        ScheScrollAreaWidgetContents = new QWidget();
+        ScheScrollAreaWidgetContents->setObjectName(QString::fromUtf8("ScheScrollAreaWidgetContents"));
+        ScheScrollAreaWidgetContents->setGeometry(QRect(0, 0, 479, 689));
+        ScheScrollArea->setWidget(ScheScrollAreaWidgetContents);
         stackedWidget->addWidget(schedule);
-        workflow = new MenuWidget();
+        workflow = new QWidget();
         workflow->setObjectName(QString::fromUtf8("workflow"));
-        widget_7 = new WorkItem(workflow);
-        widget_7->setObjectName(QString::fromUtf8("widget_7"));
-        widget_7->setGeometry(QRect(40, 100, 401, 141));
         label_2 = new QLabel(workflow);
         label_2->setObjectName(QString::fromUtf8("label_2"));
         label_2->setGeometry(QRect(0, 0, 481, 51));
@@ -165,8 +154,21 @@ public:
 "	border-image: url(:/menu/res/titleset.png)\357\274\233\n"
 "}\n"
 ""));
+        WorkgraphicsView = new QGraphicsView(workflow);
+        WorkgraphicsView->setObjectName(QString::fromUtf8("WorkgraphicsView"));
+        WorkgraphicsView->setGeometry(QRect(0, 50, 480, 690));
+        WorkgraphicsView->setMinimumSize(QSize(480, 690));
+        WorkgraphicsView->setMaximumSize(QSize(480, 690));
+        WorkgraphicsView->setStyleSheet(QString::fromUtf8("QGraphicsView{\n"
+"border:0px solid white;\n"
+"background-color : rgb(244, 244, 244);\n"
+"}"));
+        WorkgraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        WorkgraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        WorkgraphicsView->setAlignment(Qt::AlignHCenter|Qt::AlignTop);
+        WorkgraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
         stackedWidget->addWidget(workflow);
-        quadrant = new MenuWidget();
+        quadrant = new QWidget();
         quadrant->setObjectName(QString::fromUtf8("quadrant"));
         importance = new QLabel(quadrant);
         importance->setObjectName(QString::fromUtf8("importance"));
@@ -181,7 +183,9 @@ public:
         gridding->setGeometry(QRect(10, 150, 450, 450));
         gridding->setMinimumSize(QSize(450, 450));
         gridding->setMaximumSize(QSize(450, 450));
-        gridding->setStyleSheet(QString::fromUtf8("border-image: url(:/menu/res/gridding.png);"));
+        gridding->setStyleSheet(QString::fromUtf8("QLabel#gridding{\n"
+"border-image: url(:/menu/res/gridding.png);\n"
+"}"));
         urgency = new QLabel(quadrant);
         urgency->setObjectName(QString::fromUtf8("urgency"));
         urgency->setGeometry(QRect(440, 350, 61, 21));
@@ -228,7 +232,7 @@ public:
         aday->raise();
         deadline->raise();
         label_3->raise();
-        datagram = new MenuWidget();
+        datagram = new QWidget();
         datagram->setObjectName(QString::fromUtf8("datagram"));
         label_4 = new QLabel(datagram);
         label_4->setObjectName(QString::fromUtf8("label_4"));
@@ -244,7 +248,7 @@ public:
 ""));
         label_4->setAlignment(Qt::AlignCenter);
         stackedWidget->addWidget(datagram);
-        set = new MenuWidget();
+        set = new QWidget();
         set->setObjectName(QString::fromUtf8("set"));
         accountinfo = new QPushButton(set);
         accountinfo->setObjectName(QString::fromUtf8("accountinfo"));
@@ -419,7 +423,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidget->setCurrentIndex(2);
+        stackedWidget->setCurrentIndex(1);
         accountinfo->setDefault(false);
 
 

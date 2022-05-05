@@ -25,4 +25,5 @@ private:
     int length;  //记录文字长度，用来调整节点大小
 };
 
+
 #endif // GRAPHICSITEM_H

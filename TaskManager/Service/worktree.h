@@ -4,33 +4,32 @@
 #include <string>
 #include "daodata.h"
 
-class WorkTree {  //ÈÎÎñÊ÷ÄÚµÄ½Úµã£¨µã»÷²é¿´ºó£©
+class WorkTree {  //ä»»åŠ¡æ ‘å†…çš„èŠ‚ç‚¹ï¼ˆç‚¹å‡»æŸ¥çœ‹åï¼‰
 public:
-	enum {Root, Child};
-	enum {Index,Book};
-	enum {Finish, Unfinished, Reading};
+    enum {Root, Child};
+    enum {Index,Book};
+    enum {Finish, Unfinished, Reading};
 private:
-    int id;					//½Úµãid
-	int root_node_type;		//½ÓÊÜÊÇ¸ù½Óµã»¹ÊÇº¢×Ó½Úµã(0Root,1Child)
-	std::string book;		//½ÚµãÃû³Æ 
-	int node_type;			//½ÚµãÀàĞÍ£¨0Ë÷ÒıIndex¡¢1Êébook£©
-	int flag;				//½Úµã×´Ì¬£¨0Î´¶ÁUnfinished¡¢1ÔÚ¶ÁReading¡¢2ÒÑ¶ÁFinish£©
-	WorkTree* sibling;		//Ö¸ÏòĞÖµÜ
-	WorkTree* child;		//Ö¸Ïòº¢×Ó
+    int id;					//èŠ‚ç‚¹id
+    int root_node_type;		//æ¥å—æ˜¯æ ¹æ¥ç‚¹è¿˜æ˜¯å­©å­èŠ‚ç‚¹(0Root,1Child)
+    std::string book;		//èŠ‚ç‚¹åç§°
+    int node_type;			//èŠ‚ç‚¹ç±»å‹ï¼ˆ0ç´¢å¼•Indexã€1ä¹¦bookï¼‰
+    int flag;				//èŠ‚ç‚¹çŠ¶æ€ï¼ˆ0æœªè¯»Unfinishedã€1åœ¨è¯»Readingã€2å·²è¯»Finishï¼‰
+    WorkTree* sibling;		//æŒ‡å‘å…„å¼Ÿ
+    WorkTree* child;		//æŒ‡å‘å­©å­
 public:
-	/*¹¹ÔìÎö¹¹¸´ÖÆ(Ê÷µÄ²åÈë)*/
-	WorkTree(); //Ä¬ÈÏ¹¹Ôìº¯Êı£¨Ä¬ÈÏÎªº¢×Ó½Úµã¡¢Êé¡¢Î´¶Á¡¢Ãû³ÆÎ´ÃüÃû£©
-	WorkTree(std::string name);   //¹¹Ôìº¯Êı£¨´«ÈëÃû³Æ£©£¨½ÚµãÀàĞÍÄ¬ÈÏ¸ù¡¢Ä¬ÈÏÎ´¶Á¡¢Ä¬ÈÏË÷Òı£©
-	WorkTree(std::string name,int qttype);   //¹¹Ôìº¯Êı£¨´«Èë½ÚµãÃû³Æ¡¢½ÚµãÀàĞÍ£¨Ë÷Òı/Êé£©£©£¨Ä¬ÈÏº¢×Ó¡¢Ä¬ÈÏÎ´¶Á£©
-	~WorkTree();
-
-	/*Ìá¹©¸øQt¹¤×÷Á÷½çÃæÏÔÊ¾µÄ½Ó¿Ú*/
-	std::string return_progress();//·µ»ØÄ¿Ç°ÔÚ¶ÁµÄÊéÃû¡ª¡ªÌá¹©¸øÃèÊö
-	std::string return_root();//·µ»Ø¸ù½ÚµãÃû³Æ¡ª¡ªÌá¹©¸ø±êÌâ
-	/*Ê÷µÄÉ¾³ı*/
-	bool delete_node(WorkTree&);  //É¾³ı×Ó½Úµã
-	bool delete_tree(WorkTree&);  //É¾³ıÕû¿ÃÊ÷
-    /*Dao²ã½Ó¿Ú*/
+    /*æ„é€ ææ„å¤åˆ¶(æ ‘çš„æ’å…¥)*/
+    WorkTree(); //é»˜è®¤æ„é€ å‡½æ•°ï¼ˆé»˜è®¤ä¸ºå­©å­èŠ‚ç‚¹ã€ä¹¦ã€æœªè¯»ã€åç§°æœªå‘½åï¼‰
+    WorkTree(std::string name);   //æ„é€ å‡½æ•°ï¼ˆä¼ å…¥åç§°ï¼‰ï¼ˆèŠ‚ç‚¹ç±»å‹é»˜è®¤æ ¹ã€é»˜è®¤æœªè¯»ã€é»˜è®¤ç´¢å¼•ï¼‰ï¼Œæ ¹èŠ‚ç‚¹
+    WorkTree(WorkTree& parent,std::string name="æœªå‘½å",int qttype=WorkTree::Unfinished);   //æ„é€ å‡½æ•°ï¼ˆä¼ å…¥èŠ‚ç‚¹åç§°ã€èŠ‚ç‚¹ç±»å‹ï¼ˆç´¢å¼•/ä¹¦ï¼‰ï¼‰ï¼ˆé»˜è®¤å­©å­ã€é»˜è®¤æœªè¯»ï¼‰,å­©å­èŠ‚ç‚¹
+    ~WorkTree();
+    /*æä¾›ç»™Qtå·¥ä½œæµç•Œé¢æ˜¾ç¤ºçš„æ¥å£*/
+    std::string return_progress();//è¿”å›ç›®å‰åœ¨è¯»çš„ä¹¦åâ€”â€”æä¾›ç»™æè¿°
+    std::string return_root();//è¿”å›æ ¹èŠ‚ç‚¹åç§°â€”â€”æä¾›ç»™æ ‡é¢˜
+    /*æ ‘çš„åˆ é™¤*/
+    bool delete_node(WorkTree*& root, int key);  //åˆ é™¤å­èŠ‚ç‚¹
+    void delete_tree();  //åˆ é™¤æ•´æ£µæ ‘
+    /*Daoå±‚æ¥å£*/
    WorkflowDao toDaoItem();
    WorkTree(WorkflowDao& item);
 

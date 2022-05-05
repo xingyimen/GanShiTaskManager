@@ -112,7 +112,7 @@ public:
 "}"));
         label = new QLabel(widget);
         label->setObjectName(QString::fromUtf8("label"));
-        label->setGeometry(QRect(40, 90, 41, 21));
+        label->setGeometry(QRect(40, 90, 111, 21));
         label->setStyleSheet(QString::fromUtf8("QLabel{\n"
 "	background-color: white;\n"
 "}\n"
@@ -165,7 +165,7 @@ public:
         AddSchedule->setWindowTitle(QApplication::translate("AddSchedule", "Form", nullptr));
         finish->setText(QApplication::translate("AddSchedule", "\345\256\214\346\210\220", nullptr));
         add_wf_item->setText(QApplication::translate("AddSchedule", "\344\273\216\345\267\245\344\275\234\346\265\201\344\270\255\351\200\211\345\217\226", nullptr));
-        label->setText(QApplication::translate("AddSchedule", "\346\227\266\351\227\264\357\274\232", nullptr));
+        label->setText(QApplication::translate("AddSchedule", "\346\227\266\351\227\264\357\274\232              ~ ", nullptr));
         label_2->setText(QApplication::translate("AddSchedule", "~", nullptr));
     } // retranslateUi
 
