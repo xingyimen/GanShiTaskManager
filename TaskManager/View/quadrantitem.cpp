@@ -26,7 +26,14 @@ QuadrantItem::QuadrantItem(int x, int y, QDateTime dt,QString name, QString desc
 
 
 }
-
+QuadrantItem::QuadrantItem(QuadrantDao* item,QWidget *parent) :
+    QWidget(parent),Quadrant(item),ui(new Ui::QuadrantItem)
+{
+    ui->setupUi(this);
+    ui->qua_item->setText(return_name().c_str());
+    show();
+    connect(ui->qua_item,&QPushButton::clicked,this,&QuadrantItem::Check);
+}
 QuadrantItem::~QuadrantItem()
 {
     qDebug()<<"析构QuadrantItem";
@@ -90,10 +97,11 @@ void QuadrantItem::Check(){
                            "QPushButton:pressed{background-color: gray;}");
     deletebtn->show();
     connect(deletebtn,&QPushButton::clicked,[=](){
-
         qualist->DeleteData(this);   //从链表删除改节点
         mask->~Mask();
     });
+
+
 }
 
 

@@ -1,14 +1,14 @@
 #ifndef QUADRANT_H
 #define QUADRANT_H
-#include"worktree.h"
 #include<iostream>
 #include<string>
 #include "mytime.h"
 #include "daodata.h"
-
+#include "workchild.h"
 class Quadrant
 {
 private:
+    int id;
     int rol;					//任务在象限的横坐标
     int col;					//任务在象限的纵坐标
     std::string name;			//任务名称
@@ -19,13 +19,13 @@ private:
 public:
     Quadrant();
     Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time, std::string name, std::string description);		//构造函数
-    Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time, WorkTree& item);  //从工作流中读入数据
+    Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time, WorkChild* item);  //从工作流中读入数据
     ~Quadrant();	//析构函数
     /*将信息传给QT层*/
     int return_rol(){return rol;}
     int return_col(){return col;}
     std::string return_name();		//返回日程名称
-    std::string return_description();//返回具体描述
+    std::string return_description();//返回具体描述hi
     MyDate return_enddate(){return end_date;}
     MyTime return_endtime(){return end_time;}
 
@@ -35,8 +35,9 @@ public:
     bool update();	//更新时间
 
     /*Dao层接口*/
-   QuadrantDao toDaoItem();
-   Quadrant(QuadrantDao& item);
+   void toDaoItem();
+   Quadrant(QuadrantDao* item);
+
 
 };
 

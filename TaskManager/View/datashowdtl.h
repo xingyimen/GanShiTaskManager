@@ -7,6 +7,9 @@
 #include <QMouseEvent>
 #include <QGridLayout>
 #include "datetimerangewidget.h"
+#include "user_sql.h"
+
+#include <QGraphicsScene>
 
 namespace Ui {
 class dataShowDtl;
@@ -19,11 +22,14 @@ class dataShowDtl : public QWidget
 public:
     explicit dataShowDtl(QWidget *parent = nullptr);
     ~dataShowDtl();
-    void addForm();
+    void addForm(std::string name,QDateTime date ,QTime start_time, QTime finish_time);
+    void RefreshDatalist();
+    void clearLayout(QLayout *layout);
 
 private slots:
     void showTimeslots();
     void setDate();
+    void setUiDate(QDate);
 signals:
 
 protected:
@@ -34,7 +40,13 @@ private:
     DateTimeRangeWidget* dateWnd;
     QGridLayout *layoutG;
     QVBoxLayout *layoutV;
+    User_sql* userSql;
+    //QSqlDatabase database;
+    QSqlQuery query;
     Ui::dataShowDtl *ui;
+
+
+    QGraphicsScene* dataScene;
 };
 
 #endif // DATASHOWDTL_H

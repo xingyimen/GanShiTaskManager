@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "workchild.h"
+
 
 MyTime GetTime(){
     QTime current_time=QTime::currentTime();
@@ -10,7 +12,11 @@ MyDate GetDate(){
     return MyDate(current_date.year(),current_date.month(), current_date.day());
 }
 
-extern QWidget* mainwid_p=nullptr;
+QWidget* mainwid_p=nullptr;   //MainWindow的指针
+extern int user_id;  //全局变量当前的用户ID
+extern QSqlDatabase database;   //数据库
+extern User_sql mysql;          //数据库类
+
 
 /*全局变量Quadrant的链表*/
 extern Linklist<QuadrantItem>* qualist=new Linklist<QuadrantItem>();
@@ -18,6 +24,13 @@ extern Linklist<QuadrantItem>* qualist=new Linklist<QuadrantItem>();
 extern Linklist<ScheItem>* schelist=new Linklist<ScheItem>();
 /*全局变量WorkTree的链表*/
 extern Linklist<WorkItem>* worklist=new Linklist<WorkItem>();
+
+
+extern Linklist<QuadrantDao>* QuadDaoList;
+extern Linklist<ScheduleDao>* ScheDaoList;
+extern Linklist<WorkflowDao>* WorkDaoList;
+
+
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -31,8 +44,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::Init()
 {
+
     //背景设置
     setStyleSheet("background-color : rgb(244, 244, 244)");
+    setWindowTitle("干事");
     //按钮设置
     ui->schedulebtn->setCheckable(true);
     ui->workflowbtn->setCheckable(true);
@@ -85,6 +100,7 @@ void MainWindow::Init()
     });
     //设置默认页面
     ui->schedulebtn->setChecked(true);
+    this->RefreshSchedule();
     ui->stackedWidget->setCurrentWidget(ui->schedule);
     //设置界面按钮
     connect(ui->exit,&QToolButton::clicked,[=](){exit(0);});
@@ -96,44 +112,23 @@ void MainWindow::Init()
     });
     //添加日程
     connect(ui->sche_addbtn,&QToolButton::clicked,this,&MainWindow::AddSchedule);
+    scheScene = new QGraphicsScene(this);
+    ui->SchegraphicsView->setScene(scheScene);
     //添加任务树
     connect(ui->work_addbtn,&QToolButton::clicked,this,&MainWindow::AddWorkTree);
     workScene = new QGraphicsScene(this);
     ui->WorkgraphicsView->setScene(workScene);
-
-
-
-
-
-
     //添加四象限：安装过滤器
     ui->gridding->installEventFilter(this);
+    //数据报表界面
 
-//   QString theme;
-//   QString describe;
-//   QString start_time;
-//   QString end_time;
-//   QString id;
 
-//    ScheduleDao item;
-//    item.theme="C++Java";
-//    item.describe="描述";
-//    item.id="004";
-//    item.start_time="2022-5-4";
-//    item.end_time="2022-5-5";
-//    MyJsonObject dao;
 
-//    dao.writeJson(item);
-//    QStringList theme,describe,start_time,end_time,id,a,b,c,d,e;
-//    MyJsonObject test;
-//    test.readJson(theme,describe,start_time,end_time,id,a,b,c,d,e);
-//    for(int i=0;i<=1;i++){
-//        qDebug()<<a[i];
-//        qDebug()<<b[i];
-//        qDebug()<<c[i];
-//        qDebug()<<d[i];
-//        qDebug()<<e[i];
-//    }
+
+
+    //获取所有数据
+    GetAllData();
+
 
     connect(ui->datagrambtn,SIGNAL(&QToolButton::clicked),this,SLOT(on_datagrambtn_clicked()));
     ui->label_4->setMinimumSize(481,51);
@@ -170,6 +165,9 @@ void MainWindow::Init()
     layoutH->addWidget(button_yearChart);
     layout->addLayout(layoutH);
     connect(button_ptr,SIGNAL(clicked()),this,SLOT(on_button_ptr_clicked()));
+    connect(button_dayChart,SIGNAL(clicked()),this,SLOT(on_button_dayChart_clicked()));
+    connect(button_monChart,SIGNAL(clicked()),this,SLOT(on_button_monChart_clicked()));
+    connect(button_yearChart,SIGNAL(clicked()),this,SLOT(on_button_yearChart_clicked()));
 }
 
 
@@ -183,51 +181,86 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_datagrambtn_clicked()
 {
+    int cc = ui->stackedWidget->widget(3)->layout()->count();
+    qDebug()<<cc;
+    if(cc == 4)
+    {
+        layout->removeWidget(chartView);
+    }
+    QString userid=QString::number(user_id);
+    QSqlQuery query(database);
+    QString sql_s="select * from tomato.datagramdao where user_id="+userid+";";
+
+    if(query.exec(sql_s))
+    {
+        qDebug()<<"查询成功";
+    }
     QPieSeries *series = new QPieSeries();
-        series->append("Jane", 1);
-        series->append("Joe", 2);
-        series->append("Andy", 3);
-        series->append("Barbara", 4);
-        series->append("Axel", 5);
+    int i = 1;
+    while(query.next()){
+        //QString id=query.value("id").toString();
+        //ID.append(id);
+        QString name=query.value("name").toString();
+        NAME.append(name);
 
-        QPieSlice *slice = series->slices().at(1);
-        slice->setExploded();
-        slice->setLabelVisible();
-        slice->setPen(QPen(Qt::darkGreen, 2));
-        slice->setBrush(Qt::green);
+        series->append(name, i);
+        i = i + 1;
 
-        QPieSlice *slice0 = series->slices().at(0);
-        slice0->setExploded();
-        slice0->setLabelVisible();
-        slice0->setPen(QPen(Qt::darkGreen, 2));
-        slice0->setBrush(Qt::green);
+    }
+    //    QPieSeries *series = new QPieSeries();
+    //        series->append("Jane", 1);
+    //        series->append("Joe", 2);
+    //        series->append("Andy", 3);
+    //        series->append("Barbara", 4);
+    //        series->append("Axel", 5);
 
-        QChart *chart = new QChart();
-        chart->addSeries(series);
-        chart->setTitle("Simple piechart example");
-        //chart->legend()->hide();
-        chart->series().at(0)->setName(QString("Jane"));
+    //        QPieSlice *slice = series->slices().at(1);
+    //        slice->setExploded();
+    //        slice->setLabelVisible();
+    //        slice->setPen(QPen(Qt::darkGreen, 2));
+    //        slice->setBrush(Qt::green);
+
+    //        QPieSlice *slice0 = series->slices().at(0);
+    //        slice0->setExploded();
+    //        slice0->setLabelVisible();
+    //        slice0->setPen(QPen(Qt::darkGreen, 2));
+    //        slice0->setBrush(Qt::green);
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle(QStringLiteral("数据报表图"));
+    //chart->legend()->hide();
+    //chart->series().at(0)->setName(QString("Jane"));
+    if(i==1)
+    {
+
+    }
+    else
+    {
         chart->legend()->markers().at(0)->setVisible(true);
 
-        chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
+    }
 
-        setAutoFillBackground(true);
-        //connect(series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(sltTooltip(bool, int, QBarSet*)));
-        int cc = ui->stackedWidget->widget(3)->layout()->count();
-        qDebug()<<cc;
-        if(cc == 4)
-        {
-            return;
-        }
-        else
-        {
-            // 添加图表视图到布局
-            layout->addWidget(chartView);
-            layout->addWidget(button_ptr);
-            ui->stackedWidget->widget(3)->setLayout(layout);
-            this->show();
-        }
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    setAutoFillBackground(true);
+    //connect(series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(sltTooltip(bool, int, QBarSet*)));
+    cc = ui->stackedWidget->widget(3)->layout()->count();
+    qDebug()<<cc;
+    if(cc == 4)
+    {
+        return;
+    }
+    else
+    {
+        // 添加图表视图到布局
+        layout->addWidget(chartView);
+        layout->addWidget(button_ptr);
+        ui->stackedWidget->widget(3)->setLayout(layout);
+        this->show();
+    }
+
 
 }
 
@@ -240,45 +273,263 @@ void MainWindow::on_button_ptr_clicked()
     dataShowdtl->show();
 
 }
-
-
-int MainWindow::paintPie(QString cbuff,int itemCount)
+void MainWindow::on_button_dayChart_clicked()
 {
+    layout->removeWidget(chartView);
+    QString userid=QString::number(user_id);
+    QSqlQuery query(database);
+    QDate current_date=QDate::currentDate();
+    QDate adayAgo = current_date.addDays(-1);
+    QString strCurrentDateTime = adayAgo.toString("yyyy-MM-dd");
+    QString sql_s="select * from tomato.datagramdao where user_id="+userid+"";
+    sql_s.append(QString(" and date >=DATE_SUB(CURDATE(), INTERVAL 1 Day);"));
+    if(query.exec(sql_s))
+    {
+        qDebug()<<"查询成功";
+    }
     QPieSeries *series = new QPieSeries();
-        series->append("Jane", 1);
-        series->append("Joe", 2);
-        series->append("Andy", 3);
-        series->append("Barbara", 4);
-        series->append("Axel", 5);
+    int i = 1;
+    while(query.next()){
+       //QString id=query.value("id").toString();
+       //ID.append(id);
+       QString name=query.value("name").toString();
+       qDebug()<<name;
+       NAME.append(name);
 
-        QPieSlice *slice = series->slices().at(1);
-        slice->setExploded();
-        slice->setLabelVisible();
-        slice->setPen(QPen(Qt::darkGreen, 2));
-        slice->setBrush(Qt::green);
+       series->append(name, i);
+       i = i + 1;
 
-        QChart *chart = new QChart();
-        chart->addSeries(series);
-        chart->setTitle("Simple piechart example");
-        chart->legend()->hide();
+    }
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle(QStringLiteral("日视图"));
+    //chart->legend()->hide();
+    //chart->series().at(0)->setName(QString("Jane"));
+    if(i==1)
+    {
 
-        QChartView *chartView = new QChartView(chart);
-        chartView->setRenderHint(QPainter::Antialiasing);
+    }
+    else
+    {
+        chart->legend()->markers().at(0)->setVisible(true);
 
-        setAutoFillBackground(true);
+    }
 
-        int cc = ui->stackedWidget->widget(3)->layout()->count();
-        if(cc == 2)
-        {
-            return 0;
-        }
-        else
-        {
-            // 添加图表视图到布局
-            layout->addWidget(chartView);
-            ui->stackedWidget->widget(3)->setLayout(layout);
-            this->show();
-        }
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    setAutoFillBackground(true);
+    //connect(series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(sltTooltip(bool, int, QBarSet*)));
+    int cc = ui->stackedWidget->widget(3)->layout()->count();
+    qDebug()<<cc;
+    if(cc == 4)
+    {
+        return;
+    }
+    else
+    {
+        // 添加图表视图到布局
+        layout->addWidget(chartView);
+        layout->addWidget(button_ptr);
+        ui->stackedWidget->widget(3)->setLayout(layout);
+        this->show();
+    }
+}
+void MainWindow::on_button_monChart_clicked()
+{
+    layout->removeWidget(chartView);
+    QString userid=QString::number(user_id);
+    QSqlQuery query(database);
+    QDate current_date=QDate::currentDate();
+    QDate aMonAgo = current_date.addMonths(-1);
+    QString strCurrentDateTime = aMonAgo.toString("yyyy-MM-dd");
+    QString sql_s="select * from tomato.datagramdao where user_id="+userid+"";
+    sql_s.append(QString(" and date >=DATE_SUB(CURDATE(), INTERVAL 1 MONTH);"));
+    if(query.exec(sql_s))
+    {
+        qDebug()<<"查询成功";
+    }
+    QPieSeries *series = new QPieSeries();
+    int i = 1;
+    while(query.next()){
+        //QString id=query.value("id").toString();
+        //ID.append(id);
+        QString name=query.value("name").toString();
+        qDebug()<<name;
+        NAME.append(name);
+
+        series->append(name, i);
+        i = i + 1;
+
+    }
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle(QStringLiteral("月视图"));
+    //chart->legend()->hide();
+    //chart->series().at(0)->setName(QString("Jane"));
+    if(i==1)
+    {
+
+    }
+    else
+    {
+        chart->legend()->markers().at(0)->setVisible(true);
+
+    }
+
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    setAutoFillBackground(true);
+    //connect(series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(sltTooltip(bool, int, QBarSet*)));
+    int cc = ui->stackedWidget->widget(3)->layout()->count();
+    qDebug()<<cc;
+    if(cc == 4)
+    {
+        return;
+    }
+    else
+    {
+        // 添加图表视图到布局
+        layout->addWidget(chartView);
+        layout->addWidget(button_ptr);
+        ui->stackedWidget->widget(3)->setLayout(layout);
+        this->show();
+    }
+}
+void MainWindow::on_button_yearChart_clicked()
+{
+    layout->removeWidget(chartView);
+    QString userid=QString::number(user_id);
+    QSqlQuery query(database);
+    QDate current_date=QDate::currentDate();
+    QDate aYearAgo = current_date.addYears(-1);
+    QString strCurrentDateTime = aYearAgo.toString("yyyy-MM-dd");
+    QString sql_s="select * from tomato.datagramdao where user_id="+userid+"";
+    sql_s.append(QString(" and date >=DATE_SUB(CURDATE(), INTERVAL 1 YEAR);"));
+    if(query.exec(sql_s))
+    {
+        qDebug()<<"查询成功";
+    }
+    QPieSeries *series = new QPieSeries();
+    int i = 1;
+    while(query.next()){
+        //QString id=query.value("id").toString();
+        //ID.append(id);
+        QString name=query.value("name").toString();
+        qDebug()<<name;
+        NAME.append(name);
+
+        series->append(name, i);
+        i = i + 1;
+
+    }
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle(QStringLiteral("年视图"));
+    //chart->legend()->hide();
+    //chart->series().at(0)->setName(QString("Jane"));
+    if(i==1)
+    {
+
+    }
+    else
+    {
+        chart->legend()->markers().at(0)->setVisible(true);
+
+    }
+
+    chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    setAutoFillBackground(true);
+    //connect(series, SIGNAL(hovered(bool, int, QBarSet*)), this, SLOT(sltTooltip(bool, int, QBarSet*)));
+    int cc = ui->stackedWidget->widget(3)->layout()->count();
+    qDebug()<<cc;
+    if(cc == 4)
+    {
+        return;
+    }
+    else
+    {
+        // 添加图表视图到布局
+        layout->addWidget(chartView);
+        layout->addWidget(button_ptr);
+        ui->stackedWidget->widget(3)->setLayout(layout);
+        this->show();
+    }
+}
+
+
+
+int MainWindow::paintPie()
+{
+    //mysql.read_DatagramDao(user_id,database);
+    QString userid=QString::number(user_id);
+    QSqlQuery query(database);
+    QString sql_s="select * from tomato.datagramdao where user_id="+userid+";";
+
+    if(query.exec(sql_s))
+    {
+        qDebug()<<"查询成功";
+    }
+    QPieSeries *series = new QPieSeries();
+    int i = 1;
+    while(query.next()){
+        //QString id=query.value("id").toString();
+        //ID.append(id);
+        QString name=query.value("name").toString();
+        NAME.append(name);
+
+        series->append(name, i);
+        i = i + 1;
+        //QString date=query.value("date").toString();
+        //DATE.append(date);
+        //QString start_time=query.value("start_time").toString();
+        //ST.append(start_time);
+        //QString finish_time=query.value("finish_time").toString();
+        //FI.append(finish_time);
+
+        //使用json方法保存到本地
+        //       MyJsonObject example1;
+        //       example1.writeJson();
+    }
+
+    //QPieSeries *series = new QPieSeries();
+    //        series->append("Jane", 1);
+    //        series->append("Joe", 2);
+    //        series->append("Andy", 3);
+    //        series->append("Barbara", 4);
+    //        series->append("Axel", 5);
+
+    //        QPieSlice *slice = series->slices().at(1);
+    //        slice->setExploded();
+    //        slice->setLabelVisible();
+    //        slice->setPen(QPen(Qt::darkGreen, 2));
+    //        slice->setBrush(Qt::green);
+
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle(QStringLiteral("数据报表图"));
+    chart->legend()->hide();
+
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    setAutoFillBackground(true);
+
+    int cc = ui->stackedWidget->widget(3)->layout()->count();
+    if(cc == 2)
+    {
+        return 0;
+    }
+    else
+    {
+        // 添加图表视图到布局
+        layout->addWidget(chartView);
+        ui->stackedWidget->widget(3)->setLayout(layout);
+        this->show();
+    }
 }
 
 
@@ -439,26 +690,33 @@ void MainWindow::AddSchedule()
     /*~*/
     QLabel* label2=new QLabel(addSche);
     label2->setFixedSize(15,20);
-    label2->move(130,90);
+    label2->move(140,90);
     label2->setStyleSheet("QLabel{background-color: white;border-color:white;}");
     label2->setText("~");
     label2->show();
     /*开始时间*/
     QTimeEdit* starttime = new QTimeEdit(addSche);
-    starttime->setFixedSize(50,20);
+    starttime->setFixedSize(60,20);
     starttime->move(80,90);
-    starttime->setStyleSheet("QTimeEdit{border:1px solid white;background-color:white;border-bottom-color: gray;font:15px; }");
-//                             "QTimeEdit::up-button{background-color:white;}"
-//                             "QTimeEdit::down-button{background-color:white;}"
+    starttime->setStyleSheet("QTimeEdit{border:none;background-color:white;font:14px; }"
+                           "QTimeEdit::up-button{image: url(:/menu/res/upbutton.png);}"
+                           "QTimeEdit::down-button{image: url(:/menu/res/downbutton.png);}");
+
     starttime->show();
+    QTime current=QTime::currentTime();
+    starttime->setTime(current);
     /*结束时间*/
     QTimeEdit* endtime = new QTimeEdit(addSche);
-    endtime->setFixedSize(50,20);
-    endtime->move(150,90);
-    endtime->setStyleSheet("QTimeEdit{border:1px solid white;background-color:white;border-bottom-color: gray;font:15px; }");
-//                             "QTimeEdit::up-button{border-color:white;background-color:black;}"
-//                             "QTimeEdit::down-button{border-color:white;background-color:black;}"
+    endtime->setFixedSize(60,20);
+    endtime->move(160,90);
+    endtime->setStyleSheet("QTimeEdit{border:none;background-color:white;font:14px; }"
+                           "QTimeEdit::up-button{image: url(:/menu/res/upbutton.png);}"
+                           "QTimeEdit::down-button{image: url(:/menu/res/downbutton.png);}");
+    endtime->setTime(current.addSecs(300));
+
     endtime->show();
+    connect(endtime,&QTimeEdit::timeChanged,[=](){starttime->setMaximumTime(endtime->time());});
+    connect(starttime,&QTimeEdit::timeChanged,[=](){endtime->setMinimumTime(starttime->time());});
     /*完成按钮*/
     QPushButton* finishbtn = new QPushButton(addSche);
     finishbtn->setFixedSize(100,35);
@@ -469,7 +727,8 @@ void MainWindow::AddSchedule()
     finishbtn->show();
     connect(finishbtn,&QPushButton::clicked,[=](){
         //创建ScheItem节点并放入链表
-        ScheItem* pdata=new ScheItem(name->displayText(),text->displayText(),starttime->time(),endtime->time(),ui->ScheScrollAreaWidgetContents);
+        ScheItem* pdata=new ScheItem(name->displayText(),text->displayText(),starttime->time(),endtime->time());
+        scheScene->addWidget(pdata);
         schelist->InsertDataAtRear(pdata);
         //刷新窗口
         this->RefreshSchedule();
@@ -491,8 +750,8 @@ void MainWindow::AddWorkTree()
     mask->setRect(addWork->geometry());
     /*输入标题*/
     QLineEdit* name = new QLineEdit(addWork);
-    name->setFixedSize(100,21);
-    name->move(30,30);
+    name->setFixedSize(100,25);
+    name->move(30,40);
     name->setStyleSheet("QLineEdit{border:1px solid white;border-bottom-color:gray;background-color:white;}");
     name->show();
     name->setPlaceholderText("创建任务树");
@@ -505,10 +764,14 @@ void MainWindow::AddWorkTree()
                            "QPushButton:pressed{background-color: gray;}");
     finishbtn->show();
     connect(finishbtn,&QPushButton::clicked,[=](){
-        //创建WorkTree节点并放入链表
-        WorkItem* pdata=new WorkItem(name->displayText());
-        workScene->addWidget(pdata);
-        worklist->InsertDataAtRear(pdata);
+        //创建WorkChild根节点并关联
+        WorkChild* root=new WorkChild(name->displayText());
+        root->initNode();
+        //创建WorkItem节点
+        WorkItem* item=new WorkItem(root);
+        //加入链表
+        worklist->InsertDataAtRear(item);
+        workScene->addWidget(item);
         //刷新窗口
         this->RefreshWorkTree();
         //析构添加节点的窗口
@@ -535,22 +798,21 @@ void MainWindow::RefreshQuadrant()
 /*日程的刷新*/
 void MainWindow::RefreshSchedule()
 {
-    QPoint* pbase=new QPoint(50,50);   //打印的基点
+    QPoint pbase(50,50);   //打印的基点
     int direct=110+20;  //110是ScheItem的高，20是间隔
-    int i=0;
     Node<ScheItem>* p=schelist->head;
     while(p->next){
-        pbase->setY(pbase->y()+direct*i);
+        pbase.setY(pbase.y());
         p->next->data->Reflesh(pbase);
+        pbase.setY(pbase.y()+direct);
         p=p->next;
-        ++i;
     }
 }
 /*工作流的刷新*/
 void MainWindow::RefreshWorkTree()
 {  
     QPoint pbase(30,50);   //打印的基点
-    int direct=110+20;  //110是WorkItem的高，20是间隔
+    int direct=110+30;  //110是WorkItem的高，30是间隔
     Node<WorkItem>* p=worklist->head;
     while(p->next){
         pbase.setY(pbase.y());
@@ -559,3 +821,127 @@ void MainWindow::RefreshWorkTree()
         p=p->next;
     }
 }
+
+
+
+/*关闭软件前保存*/
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+    /*清空原表单*/
+    mysql.clean_QuadrantDao(user_id,database);
+    mysql.clean_ScheduleDao(user_id,database);
+    mysql.clean_WorkflowDao(user_id,database);
+    /*把所有数据插到DaoList内*/
+    //Quadrant
+    Node<QuadrantItem>* qview=qualist->head;
+    while(qview->next){
+        qview->next->data->toDaoItem();
+        qview=qview->next;
+    }
+    //Schedule
+    Node<ScheItem>* sview=schelist->head;
+    while(sview->next){
+        sview->next->data->toDaoItem();
+        sview=sview->next;
+    }
+    //Workflow
+    Node<WorkItem>* wview=worklist->head;
+    WorkChild* wchild=nullptr;
+    while(wview->next){
+        wchild = wview->next->data->return_child();
+        wchild->toDaoItem();
+        wview=wview->next;
+    }
+
+    //QuadDaoList写入数据库
+    Node<QuadrantDao>* qdao=QuadDaoList->head;
+    while(qdao->next){
+        mysql.write_QuadrantDao(user_id,*qdao->next->data,database);
+        qdao=qdao->next;
+    }
+     //ScheDaoList写入数据库
+    Node<ScheduleDao>* sdao=ScheDaoList->head;
+    while(sdao->next){
+        mysql.write_ScheduleDao(user_id,*sdao->next->data,database);
+        sdao=sdao->next;
+    }
+    //WorkDaoList写入数据库
+    Node<WorkflowDao>* wdao=WorkDaoList->head;
+    while(wdao->next){
+        mysql.write_WorkflowDao(user_id,*wdao->next->data,database);
+        wdao=wdao->next;
+    }
+
+
+}
+
+
+/*构建WorkChild树*/
+WorkChild* buildtree(int i,QStringList& ID,QStringList& ROOT,QStringList& BOOK,QStringList& NODE,QStringList& FL,QStringList& SI,QStringList& CH,WorkChild* par){
+    WorkflowDao wdao={ID[i],ROOT[i],BOOK[i],NODE[i],FL[i],SI[i],CH[i]};
+    WorkChild* pthis = new WorkChild(&wdao,par);
+    if(par){
+        pthis->initNode(par);
+        pthis->addLine(par);
+    }
+    else pthis->initNode();
+    if(CH[i]!="0")  buildtree(CH[i].toInt()-1,ID,ROOT,BOOK,NODE,FL,SI,CH,pthis);
+    if(SI[i]!="0")  buildtree(SI[i].toInt()-1,ID,ROOT,BOOK,NODE,FL,SI,CH,par);
+    return pthis;
+}
+
+/*开启软件前读取*/
+void MainWindow::GetAllData()
+{
+    qDebug()<<"开机读取";
+    /*读取数据到dao链表*/
+    mysql.read_QuadrantDao(user_id,database);
+    mysql.read_ScheduleDao(user_id,database);
+
+    /*dao链表到view链表*/
+    //Quadrant
+    Node<QuadrantDao>* qdao=QuadDaoList->head;
+    while(qdao->next){
+        //创建Quadrant节点并放入链表
+        QuadrantItem* qdata=new QuadrantItem(qdao->next->data,ui->gridding);
+        qualist->InsertDataAtHead(qdata);
+        qdao=qdao->next;
+    }
+
+    //Schedule
+    Node<ScheduleDao>* sdao=ScheDaoList->head;
+    while(sdao->next){
+        //创建Schedule节点并放入链表
+        ScheItem* sdata=new ScheItem(sdao->next->data);
+        scheScene->addWidget(sdata);
+        schelist->InsertDataAtRear(sdata);
+        sdao=sdao->next;  
+    }
+    this->RefreshSchedule();
+
+    //Workflow
+    QStringList ID,ROOT,BOOK,NODE,FL,SI,CH;
+
+    mysql.read_WorkflowDao(user_id,database,ID,ROOT,BOOK,NODE,FL,SI,CH);
+    WorkChild* root=nullptr;
+    for(int i=0;i<ROOT.length();i++){
+        if(ROOT[i]==QString().setNum(WorkChild::Root)){
+
+            root=buildtree(i,ID,ROOT,BOOK,NODE,FL,SI,CH,nullptr);
+            //创建WorkItem节点
+            WorkItem* item = new WorkItem(root);
+            //加入链表
+            worklist->InsertDataAtRear(item);
+            workScene->addWidget(item);
+        }
+    }
+    //刷新窗口
+    this->RefreshWorkTree();
+    /*清空dao链表*/
+
+    QuadDaoList->CleanList();
+    ScheDaoList->CleanList();
+}
+
+
+

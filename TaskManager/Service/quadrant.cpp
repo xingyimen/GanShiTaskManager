@@ -8,6 +8,9 @@ extern MyTime GetTime();
 extern MyDate GetDate();
 
 
+int IDQuadrant=1;  //ID
+extern Linklist<QuadrantDao>* QuadDaoList;
+
 int months[13] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
 //增加天数
 void add_day(MyDate& temp, int k)
@@ -90,18 +93,16 @@ Quadrant::Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time,std::st
     this->rol = q_rol;
     this->col = q_col;
     this->name=(q_name=="")? "未命名":q_name;
-    this->description=(q_description=="")? "null":q_description;
+    this->description=(q_description=="")? "略":q_description;
     //int dis = 8 - q_rol;    //距离截止时间还有多少天
     this->now = GetTime();
     this->end_date = end_date;
     //add_day(this->end_date, dis);
     this->end_time=end_time;
-
-
-
+    this->id=IDQuadrant++;
 }
 //从工作流中读入数据
-Quadrant::Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time,  WorkTree& item)
+Quadrant::Quadrant(int q_rol, int q_col,MyDate end_date, MyTime end_time,  WorkChild* item)
 {
 
 }
@@ -164,17 +165,29 @@ bool Quadrant::update()
 }
 
 /*Dao层接口*/
-QuadrantDao Quadrant::toDaoItem()
+void Quadrant::toDaoItem()
 {
     //所有数据转string
-    QuadrantDao daoitem;
-
+    QuadrantDao* daoitem=new(QuadrantDao);
+    //字符串=整形
+    daoitem->id = std::to_string(id);
+    daoitem->name = name;
+    daoitem->description = description;
+    daoitem->col = std::to_string(col);
+    daoitem->rol = std::to_string(rol);
+    daoitem->end_time = end_time.toString();
+    daoitem->end_date = end_date.toString();
+    QuadDaoList->InsertDataAtHead(daoitem);
 }
 
-Quadrant::Quadrant(QuadrantDao& daoitem)
+Quadrant::Quadrant(QuadrantDao* daoitem)
 {
     //string转数据
-
+    id = IDQuadrant++;
+    name = daoitem->name;
+    description = daoitem->description;
+    col = atoi(daoitem->col.c_str());
+    rol = atoi(daoitem->rol.c_str());
+    end_time.getData(daoitem->end_time);
+    end_date.getData(daoitem->end_date);
 }
-
-

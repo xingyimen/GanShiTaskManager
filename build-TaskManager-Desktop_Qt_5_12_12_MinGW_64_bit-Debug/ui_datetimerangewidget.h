@@ -11,8 +11,6 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QGridLayout>
-#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QWidget>
 
@@ -21,57 +19,49 @@ QT_BEGIN_NAMESPACE
 class Ui_DateTimeRangeWidget
 {
 public:
-    QGridLayout *gridLayout_2;
-    QGridLayout *gridLayout;
     QLabel *label_starttime;
     QLabel *label_endtime;
-    QHBoxLayout *horizontalLayout;
     QLabel *label_text;
 
     void setupUi(QWidget *DateTimeRangeWidget)
     {
         if (DateTimeRangeWidget->objectName().isEmpty())
             DateTimeRangeWidget->setObjectName(QString::fromUtf8("DateTimeRangeWidget"));
-        DateTimeRangeWidget->resize(503, 122);
-        gridLayout_2 = new QGridLayout(DateTimeRangeWidget);
-        gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
-        gridLayout = new QGridLayout();
-        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        gridLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        DateTimeRangeWidget->resize(480, 100);
+        DateTimeRangeWidget->setStyleSheet(QString::fromUtf8("QWidget#DateTimeRangeWidget{\n"
+"background-color : rgb(244, 244, 244);\n"
+"}"));
         label_starttime = new QLabel(DateTimeRangeWidget);
         label_starttime->setObjectName(QString::fromUtf8("label_starttime"));
+        label_starttime->setGeometry(QRect(10, 10, 81, 40));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(label_starttime->sizePolicy().hasHeightForWidth());
         label_starttime->setSizePolicy(sizePolicy);
-        label_starttime->setMaximumSize(QSize(16777215, 16777215));
-
-        gridLayout->addWidget(label_starttime, 0, 0, 1, 1);
-
+        label_starttime->setMaximumSize(QSize(200, 16777215));
+        label_starttime->setAlignment(Qt::AlignCenter);
         label_endtime = new QLabel(DateTimeRangeWidget);
         label_endtime->setObjectName(QString::fromUtf8("label_endtime"));
+        label_endtime->setGeometry(QRect(10, 50, 81, 40));
         sizePolicy.setHeightForWidth(label_endtime->sizePolicy().hasHeightForWidth());
         label_endtime->setSizePolicy(sizePolicy);
         label_endtime->setMaximumSize(QSize(16777215, 16777215));
-
-        gridLayout->addWidget(label_endtime, 1, 0, 1, 1);
-
-
-        gridLayout_2->addLayout(gridLayout, 0, 0, 1, 1);
-
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        label_endtime->setAlignment(Qt::AlignCenter);
         label_text = new QLabel(DateTimeRangeWidget);
         label_text->setObjectName(QString::fromUtf8("label_text"));
+        label_text->setGeometry(QRect(120, 10, 341, 81));
         sizePolicy.setHeightForWidth(label_text->sizePolicy().hasHeightForWidth());
         label_text->setSizePolicy(sizePolicy);
-
-        horizontalLayout->addWidget(label_text);
-
-
-        gridLayout_2->addLayout(horizontalLayout, 0, 1, 1, 1);
-
+        label_text->setStyleSheet(QString::fromUtf8("QLabel#label_text{\n"
+"	background-color: white;\n"
+"    border: 1px solid gray;\n"
+"	border-radius:15px;\n"
+"    font:25px; \n"
+"    font-family: Segoe UI;\n"
+"}\n"
+""));
+        label_text->setAlignment(Qt::AlignCenter);
 
         retranslateUi(DateTimeRangeWidget);
 

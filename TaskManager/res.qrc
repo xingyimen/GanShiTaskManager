@@ -15,5 +15,8 @@
         <file>res/titleset.png</file>
         <file>res/gridding.png</file>
         <file>res/return.png</file>
+        <file>res/upbutton.png</file>
+        <file>res/downbutton.png</file>
+        <file>res/date.png</file>
     </qresource>
 </RCC>

@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "user_sql.h"
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
@@ -7,10 +7,15 @@
 #include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
+#include "login.h"
 
+
+QSqlDatabase database;
+User_sql mysql;
 
 int main(int argc, char *argv[])
 {
+    QApplication::addLibraryPath("./plugins");
     QApplication a(argc, argv);
 
     QTranslator translator;
@@ -23,31 +28,12 @@ int main(int argc, char *argv[])
         }
     }
 
+    //连接到远程数据库
+    mysql.connect_mysql(database);
 
-
-
-
-
-
-//    检查驱动
-//    qDebug() << QSqlDatabase::drivers();
-    //连接远程数据库
-//    QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
-//    db.setHostName("124.223.188.73");
-//    db.setUserName("root");
-//    db.setPassword("Yintama2002");
-//    db.setDatabaseName("player");
-
-//    if(!db.open()){
-//        qDebug()<< "连接失败";
-//    }
-//    else{
-//        qDebug()<< "连接成功";
-//    }
-
+    //MainWindow w;
     //登录窗口
-
-    MainWindow w;
+    login w;
     w.show();
     return a.exec();
 }

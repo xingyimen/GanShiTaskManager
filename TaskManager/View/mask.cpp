@@ -1,6 +1,9 @@
 #include "mask.h"
 #include <QMouseEvent>
 #include <QDebug>
+
+
+//灰色背景遮罩
 Mask::Mask(QWidget *parent)
     : QWidget{parent}
 {
@@ -12,7 +15,7 @@ Mask::Mask(QWidget *parent)
     blackmask->setStyleSheet("background:rgba(0,0,0,0.5);");
     this->show();
 }
-
+//点击灰色背景能够进行析构
 void Mask::mousePressEvent(QMouseEvent *event)
 {
     if(event->x()<rec.x()||event->x()>rec.x()+rec.width()||event->y()<rec.y()||event->y()>rec.y()+rec.height()){
@@ -22,7 +25,6 @@ void Mask::mousePressEvent(QMouseEvent *event)
 
 Mask::~Mask()
 {
-   qDebug()<<"析构mask";
 }
 
 void Mask::setRect(QRect rec)

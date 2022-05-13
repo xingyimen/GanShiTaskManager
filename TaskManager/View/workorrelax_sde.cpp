@@ -1,6 +1,9 @@
 #include "workorrelax_sde.h"
 #include "ui_workorrelax_sde.h"
 
+extern int user_id;
+extern QSqlDatabase database;
+extern User_sql mysql;
 workOrrelax_sde::workOrrelax_sde(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::workOrrelax_sde)
@@ -28,7 +31,9 @@ workOrrelax_sde::~workOrrelax_sde()
 
 void workOrrelax_sde::onShowTime(int minu,int relaxmin, QString theme_text)
 {
+    theme_textMain = theme_text;
     ui->label->setText(theme_text);
+    stratTime = QTime::currentTime().toString("hh:mm");
     minute = minu;
     second = 0;
     QString s_minute = QString::number(minute) + ":00";
@@ -46,6 +51,26 @@ void workOrrelax_sde::onRelaxShowTime()
     connect(timer,SIGNAL(timeout()),this,SLOT(onTimeout()));
     if(ui->label_pp->text() == "休息中")
     {
+        endTime = QTime::currentTime().toString("hh:mm");
+        endDate = QDate::currentDate().toString("yyyy-MM-dd");
+        int id = 1;
+        QString idstr=QString::number(id);
+        QString userid=QString::number(user_id);
+        QSqlQuery query(database);
+
+
+        QString sql_s="insert into datagramdao(`user_id`,`id`,`name`,`date`,`start_time`,`finish_time`) values('"+userid+"','"+idstr+"','"+theme_textMain+"','"+endDate+"','"+stratTime+"','"+endTime+"');";
+        if(!query.exec(sql_s))
+        {
+            qDebug()<<"插入错误";
+            //return;
+        }
+        else
+        {
+            qDebug()<<"插入成功";
+        }
+        qDebug()<<sql_s;
+
         emit closedown();
         this->close();
     }
@@ -90,6 +115,41 @@ void workOrrelax_sde::onTimeout(){
     }
     else
     {
-        this->close();
+        if(ui->label_pp->text() == "专注中")
+        {
+            QString s_minute = QString::number(relaxminute) + ":00";
+            minute = relaxminute;
+            second = 0;
+            disconnect(timer,SIGNAL(timeout()),this,SLOT(onTimeout()));
+            connect(timer,SIGNAL(timeout()),this,SLOT(onTimeout()));
+            ui->label_pp->setText(QStringLiteral("休息中"));
+            ui->lcdNumber->display(s_minute);
+            return;
+        }
+        if(ui->label_pp->text() == "休息中")
+        {
+            endTime = QTime::currentTime().toString("hh:mm");
+            endDate = QDate::currentDate().toString("yyyy-MM-dd");
+            int id = 1;
+            QString idstr=QString::number(id);
+            QString userid=QString::number(user_id);
+            QSqlQuery query(database);
+
+
+            QString sql_s="insert into datagramdao(`user_id`,`id`,`name`,`date`,`start_time`,`finish_time`) values('"+userid+"','"+idstr+"','"+theme_textMain+"','"+endDate+"','"+stratTime+"','"+endTime+"');";
+            if(!query.exec(sql_s))
+            {
+                qDebug()<<"插入错误";
+                //return;
+            }
+            else
+            {
+                qDebug()<<"插入成功";
+            }
+            qDebug()<<sql_s;
+            emit closedown();
+            this->close();
+        }
+
     }
 }

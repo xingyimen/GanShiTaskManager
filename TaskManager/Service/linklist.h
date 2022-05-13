@@ -72,7 +72,6 @@ bool Linklist<DataType>::InsertDataAtRear(DataType* pdata)
     newnode->data=pdata;
     newnode->next=p->next;
     p->next= newnode;
-    qDebug()<<"insert";
     return true;
 }
 /*删：按指针寻找*/
@@ -119,10 +118,11 @@ bool Linklist<DataType>::DeleteData(DataType* deletenode)
 template<class DataType>
 bool Linklist<DataType>::CleanList()
 {
+    //仅用于Dao层清空
     Node<DataType>* p = head;
     Node<DataType>* deletep=p->next;
     while(p->next){
-        p->data->~DataType(); //删数据
+        delete(deletep->data); //删数据
         p->next=deletep->next;
         delete(deletep);  //删链表节点
         deletep=p->next;

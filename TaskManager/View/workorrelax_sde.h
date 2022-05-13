@@ -6,6 +6,8 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QTimer>
+#include <QTime>
+#include "user_sql.h"
 
 namespace Ui {
 class workOrrelax_sde;
@@ -32,6 +34,10 @@ private:
     int minute=25,second=0;
     QVBoxLayout *layout;
     QPushButton *startbutton;
+    QString stratTime;
+    QString endTime;
+    QString endDate;
+    QString theme_textMain;
 private:
     Ui::workOrrelax_sde *ui;
 };

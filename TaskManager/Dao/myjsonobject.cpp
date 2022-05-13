@@ -10,9 +10,10 @@
 #include<QDir>
 #include<QFileDialog>
 
+extern Linklist<ScheduleDao>* ScheDaoList;  //全局变量，装载日程的链表
+extern Linklist<WorkflowDao>* WorkDaoList;  //全局变量，装载日程的链表
+extern Linklist<QuadrantDao>* QuadDaoList;  //全局变量，装载日程的链表
 
-extern Linklist<ScheduleDao>* ScheDaoList=new Linklist<ScheduleDao>();  //全局变量，装载日程的链表
-extern Linklist<WorkflowDao>* WorkDaoList=new Linklist<WorkflowDao>();  //全局变量，装载日程的链表
 
 MyJsonObject::MyJsonObject()
 {
@@ -22,7 +23,7 @@ void MyJsonObject::writeJson(ScheduleDao& item)
 {
     //创建存储json文件的文件夹
     QString a=QCoreApplication::applicationDirPath();//获取程序所在位置的目录
-    QString dir_str=a+"/S"+"/JSONS";
+    QString dir_str=a+"/SJSONS";
     //检查目录是否存在，若不存在则新建
     QDir dir;
     if(!dir.exists(dir_str))
@@ -30,29 +31,26 @@ void MyJsonObject::writeJson(ScheduleDao& item)
         bool res=dir.mkpath(dir_str);
         if(!res) qDebug()<<"JSONS file can't be created";
     }
-
-
     QJsonObject obj;
     obj.insert("主题",item.theme.c_str());//这里是QJsonValue类型，发生了隐式的字符串转换
     obj.insert("描述",item.describe.c_str());
     obj.insert("开始时间",item.start_time.c_str());
     obj.insert("结束时间",item.end_time.c_str());
     obj.insert("id",item.id.c_str());
-
-
     QJsonDocument doc(obj);
     QByteArray json=doc.toJson();//得到json字符串
     QString id=item.id.c_str();
     QString json_name="s"+id+".json";
-    QFile file(a+"/S"+"/JSONS/"+json_name);//保存到指定路径
+    QFile file(a+"/SJSONS/"+json_name);//保存到指定路径
     file.open(QFile::WriteOnly);//bool 函数 true文件打开成功 false 打开失败
     file.write(json);
     file.close();
 }
-void MyJsonObject::readScheJson(QStringList Theme,QStringList Describe,QStringList Start_Time,QStringList End_Time,QStringList Id,QStringList &Th,QStringList &De,QStringList &St,QStringList &En,QStringList &I)
+void MyJsonObject::readScheJson(QStringList &Th,QStringList &De,QStringList &St,QStringList &En,QStringList &I)
 {
+    QStringList Theme,Describe,Start_Time,End_Time,Id;
     QString a=QCoreApplication::applicationDirPath();//获取当前路径
-    QString path=a+"/S/JSONS";
+    QString path=a+"/SJSONS";
     //获取所有文件名
     QDir dir(path);
     dir.setFilter(QDir::NoDotAndDotDot | QDir::AllEntries);
@@ -61,7 +59,7 @@ void MyJsonObject::readScheJson(QStringList Theme,QStringList Describe,QStringLi
     {
         QString json_name=fileEntryList[i];
         QString a=QCoreApplication::applicationDirPath();//获取当前路径
-        QFile file(a+"/S/JSONS/"+json_name);//保存到指定路径
+        QFile file(a+"/SJSONS/"+json_name);//保存到指定路径
         file.open(QFile::ReadOnly);//bool 函数 true文件打开成功 false 打开失败
         QByteArray all=file.readAll();
         file.close();

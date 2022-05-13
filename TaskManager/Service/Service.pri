@@ -4,8 +4,7 @@ SOURCES += \
     $$PWD/mytime.cpp \
     $$PWD/promodoroclock.cpp \
     $$PWD/quadrant.cpp \
-    $$PWD/schedule.cpp \
-    $$PWD/worktree.cpp
+    $$PWD/schedule.cpp
 
 HEADERS += \
     $$PWD/datalist.h \
@@ -13,8 +12,7 @@ HEADERS += \
     $$PWD/mytime.h \
     $$PWD/promodoroclock.h \
     $$PWD/quadrant.h \
-    $$PWD/schedule.h \
-    $$PWD/worktree.h
+    $$PWD/schedule.h
 
 
 FORMS += \

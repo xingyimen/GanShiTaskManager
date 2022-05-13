@@ -14,9 +14,11 @@ class QuadrantItem : public QWidget,public Quadrant
 
 public:
     explicit QuadrantItem(int x, int y,QDateTime dt, QString name, QString description,QWidget *parent = nullptr);
+    explicit QuadrantItem(QuadrantDao* item,QWidget *parent = nullptr);
     ~QuadrantItem();
     void Reflesh();
     void Check();
+
 
 private:
     Ui::QuadrantItem *ui;

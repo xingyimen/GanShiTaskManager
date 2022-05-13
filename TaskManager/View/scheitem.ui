@@ -26,11 +26,9 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
-background-color: rgb(255, 255, 255)；
-	border-color: rgb(147, 147, 147);
-}
-</string>
+   <string notr="true">QWidget#ScheItem{
+background-color : rgb(244, 244, 244);
+}</string>
   </property>
   <widget class="QWidget" name="widget" native="true">
    <property name="geometry">

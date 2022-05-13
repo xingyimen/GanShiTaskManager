@@ -4,7 +4,6 @@
 #include<string>
 #include "mytime.h"
 #include "daodata.h"
-#include"worktree.h"
 #include"quadrant.h"
 
 
@@ -13,14 +12,15 @@
 class Schedule
 {
 private:
+    int id;
     std::string name;			//日程名称
     std::string description;		//具体描述
     MyTime start_time;		//日程的开始时间
     MyTime end_time;			//日程的结束时间
 public:
     Schedule(std::string name, std::string description, MyTime start_time, MyTime end_time);	//构造函数
-    Schedule(WorkTree& item, MyTime start_time, MyTime end_time); //从工作流导入数据
-    Schedule(Quadrant& item, MyTime start_time, MyTime end_time); //从四象限导入数据
+    Schedule(WorkChild* item, MyTime start_time, MyTime end_time); //从工作流导入数据
+    Schedule(Quadrant* item, MyTime start_time, MyTime end_time); //从四象限导入数据
     ~Schedule();	//析构函数
     /*Qt接口*/
     std::string getname(){return name;}
@@ -28,8 +28,8 @@ public:
     MyTime getstarttime(){return start_time;}
     MyTime getendtime(){return end_time;}
     /*Dao层接口*/
-   ScheduleDao toDaoItem();
-   Schedule(ScheduleDao& item);
+   void toDaoItem();
+   Schedule(ScheduleDao* item);
 };
 
 #endif

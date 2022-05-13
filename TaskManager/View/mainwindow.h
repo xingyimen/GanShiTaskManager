@@ -13,13 +13,12 @@
 #include <QMouseEvent>
 #include "myjsonobject.h"   //数据存储
 #include <QStringList>
-
 #include "linklist.h"
 #include "quadrantitem.h"
 #include "scheitem.h"
 #include "workitem.h"
 #include "mask.h"
-
+#include "user_sql.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -33,12 +32,14 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     //数据报表的方法
-    int paintPie(QString cbuff = " ",int itemCount = 1);
+    int paintPie();
     void Init();
 
     void AddQuadrant(int click_x,int click_y);
     void AddSchedule();
     void AddWorkTree();
+
+    void GetAllData();
 
 
 public slots:
@@ -49,6 +50,9 @@ public slots:
 private slots:
     void on_datagrambtn_clicked();
     void on_button_ptr_clicked();
+    void on_button_dayChart_clicked();
+    void on_button_monChart_clicked();
+    void on_button_yearChart_clicked();
 
 
 
@@ -56,6 +60,7 @@ private slots:
 protected:
     //四象限的鼠标监视
     virtual bool eventFilter ( QObject * watched, QEvent * event );
+    virtual void closeEvent(QCloseEvent* event);
 
 
 private:
@@ -68,6 +73,7 @@ private:
     QPushButton* button_monChart;
     QPushButton* button_yearChart;
     dataShowDtl* dataShowdtl;
+    QStringList NAME;
     Ui::MainWindow *ui;
 
 
