@@ -17,7 +17,6 @@ extern int user_id;  //全局变量当前的用户ID
 extern QSqlDatabase database;   //数据库
 extern User_sql mysql;          //数据库类
 
-
 /*全局变量Quadrant的链表*/
 extern Linklist<QuadrantItem>* qualist=new Linklist<QuadrantItem>();
 /*全局变量ScheItem的链表*/
@@ -641,10 +640,6 @@ void MainWindow::AddQuadrant(int click_x,int click_y)
         //析构添加节点的窗口
         mask->~Mask();
     });
-    //从工作流中选择
-//    connect(workbtn,&QPushButton::clicked,[=](){
-//        name->
-//    });
 }
 /**创建添加Schedule的窗口**/
 void MainWindow::AddSchedule()
